@@ -5,7 +5,7 @@
 ### Cloner le projet
 
 ```shell
-git clone https://github.com/Bts-Sio-CCI/FlowTech.git
+git clone https://github.com/Bts-Sio-CCI/FlowTechAP2.git
 ```
 
 ### Installer le compilateur SASS
