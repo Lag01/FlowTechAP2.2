@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if (isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user'])) {
+	header("Location: ../pages/connexion.php");
 	exit();
 } else {
 	//header("Location: /pages/connexion.php");
