@@ -16,7 +16,7 @@
 
             <?php
             require_once('fonction.php');
-            $cnx = connect_bd('flowtech');
+            $cnx = connect_bd('nc231_flowtech');
 
             if ($cnx) {
                 $result = $cnx->prepare('SELECT idGenre, nomGenre FROM Genre;');
@@ -36,7 +36,7 @@
 
             <?php
             require_once('fonction.php');
-            $cnx = connect_bd('flowtech');
+            $cnx = connect_bd('nc231_flowtech');
 
             if ($cnx) {
                 $result = $cnx->prepare('SELECT idEvent, nomEvent FROM Event;');
@@ -60,7 +60,7 @@
 if (isset($_POST['genre'])) {
     include("fonction.php");
 
-    $cnx = connect_bd('flowtech');
+    $cnx = connect_bd('nc231_flowtech');
 
     if ($cnx) {
         $result = $cnx->prepare('INSERT INTO Evenement (Nom, dateNaissance, prenom, idGenre) VALUES (:titre, :anneeSortie, :affiche, :idGenre)');
@@ -84,6 +84,6 @@ if (isset($_POST['genre'])) {
     } else {
         echo "erreur";
     }
-    deconnect_bd('flowtech');
+    deconnect_bd('nc231_flowtech');
 }
 ?>
