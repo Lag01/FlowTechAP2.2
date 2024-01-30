@@ -43,15 +43,26 @@
 								<li>
 									<a class="dropdown-item text-light text-bold" href="../pages/profil.php"><i class="bi bi-person-circle mx-2"></i>Profil</a>
 								</li>
-								<li>
-									<a class="dropdown-item text-light text-bold" href="../pages/connexion.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Connexion</a>
-								</li>
-								<li>
-									<a class="dropdown-item text-light text-bold" href="../pages/inscription.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Inscription</a>
-								</li>
-								<li>
-									<a class="dropdown-item text-light text-bold" type="submit" name="logout" class="btn btn-primary btn-block"><i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion</a>
-								</li>
+								<?php if (isset($_SESSION['user'])): ?>
+									<li>
+										<a class="dropdown-item text-light text-bold" href="../pages/connexion.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Connexion</a>
+									</li>
+									<li>
+										<a class="dropdown-item text-light text-bold" href="../pages/inscription.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Inscription</a>
+									</li>
+									<li>
+										<form method="post" action="../pages/script/authentification.inc.php">
+											<button class="dropdown-item text-light text-bold" type="submit" name="logout"><i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion</button>
+										</form>
+									</li>
+								<?php else: ?>
+									<li>
+										<a class="dropdown-item text-light text-bold" href="../pages/connexion.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Connexion</a>
+									</li>
+									<li>
+										<a class="dropdown-item text-light text-bold" href="../pages/inscription.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Inscription</a>
+									</li>
+								<?php endif; ?>
 							</ul>
 						</div>
 					</li>
