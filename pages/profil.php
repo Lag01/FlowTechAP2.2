@@ -1,25 +1,14 @@
 <?php
 session_start();
 
-if (isset($_SESSION['user_id'])) {
+include_once '../pages/script/authentification.inc.php';
+
+//verification utilisateur connecté
+if (!isset($_SESSION['user'])) {
+	header("Location: ../login-form.php");
 	exit();
-} else {
-	//header("Location: /pages/connexion.php");
-	// pour le moment je définit une session manuellement
-	$_SESSION['prenom'] = 'Martin';
-	$_SESSION['nom'] = 'Pêcheur';
-	$_SESSION['pseudo'] = 'Pêcheur';
-	$_SESSION['email'] = 'martinpecheur@gmail.com';
-	$_SESSION['telephone'] = '0123456789';
 }
-
-// je récupère les données de ma session en les assignant à des variables
-$prenom = $_SESSION['prenom'];
-$nom = $_SESSION['nom'];
-$pseudonyme = $_SESSION['pseudo'];
-$email = $_SESSION['email'];
-$telephone = $_SESSION['telephone'];
-
+logout();
 ?>
 
 <!DOCTYPE html>
