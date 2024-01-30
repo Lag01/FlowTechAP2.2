@@ -1,50 +1,35 @@
 <form method="post" action="filmAjouter.php">
     <fieldset>
-        <legend>Inscription Evénement</legend>
+        <legend>Films</legend>
 
-        <label for="Nom">Nom :</label>
-        <input type="text" name="Nom" />
+        <label for="nom">Nom :</label>
+        <input type="text" name="nom" />
 
-        <label for="Prénom">Prénom :</label>
-        <input type="text" name="Prénom" />
+        <label for="prenom">Prénom :</label>
+        <input type="text" name="prenom" />
 
-        <label for="DateNaissance">Date de Naissance :</label>
-        <input type="text" name="DateNaissance" />
+        <label for="dateNaissance"> Date de naissance :</label>
+        <input type="text" name="dateNaissance" />
 
-        <label for="genre">Genre :</label>
+        <label for="genre"> Genre :</label>
         <select name="genre">
-
             <?php
             require_once('fonction.php');
+            // On établit la connexion seulement si elle n'a pas déjà été établie
+            
             $cnx = connect_bd('nc231_flowtech');
 
             if ($cnx) {
+                // On prépare la requête
                 $result = $cnx->prepare('SELECT idGenre, nomGenre FROM Genre;');
+                // On execute la requête
                 $result->execute();
 
+                // Si la requête renvoie une ligne
                 if ($result->rowCount() > 0) {
+                    // Boucle d'alimentation des options de la liste déroulante
                     while ($donnees = $result->fetch()) {
                         echo "<option value=" . $donnees['idGenre'] . ">" . $donnees['nomGenre'] . "</option>";
-                    }
-                }
-            }
-            ?>
-        </select>
-
-        <label for="event">Evénement :</label>
-        <select name="event">
-
-            <?php
-            require_once('fonction.php');
-            $cnx = connect_bd('nc231_flowtech');
-
-            if ($cnx) {
-                $result = $cnx->prepare('SELECT idEvent, nomEvent FROM Event;');
-                $result->execute();
-
-                if ($result->rowCount() > 0) {
-                    while ($donnees = $result->fetch()) {
-                        echo "<option value=" . $donnees['idEvent'] . ">" . $donnees['nomEvent'] . "</option>";
                     }
                 }
             }
@@ -54,36 +39,50 @@
         <input type="submit" value="envoyer" />
     </fieldset>
 </form>
-<a href="index.html">Accueil</a>
 
 <?php
-if (isset($_POST['genre'])) {
-    include("fonction.php");
-
-    $cnx = connect_bd('nc231_flowtech');
-
-    if ($cnx) {
-        $result = $cnx->prepare('INSERT INTO Evenement (Nom, dateNaissance, prenom, idGenre) VALUES (:titre, :anneeSortie, :affiche, :idGenre)');
-
-        $nom = filter_input(INPUT_POST, "Nom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $dateNaissance = filter_input(INPUT_POST, "DateNaissance");
-        $prenom = filter_input(INPUT_POST, "Prénom", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $idGenre = filter_input(INPUT_POST, "genre");
-
-
-        $result->bindParam(':titre', $nom, PDO::PARAM_STR);
-        $result->bindParam(':anneeSortie', $dateNaissance, PDO::PARAM_INT);
-        $result->bindParam(':affiche', $prenom, PDO::PARAM_STR);
-        $result->bindParam(':idGenre', $idGenre, PDO::PARAM_INT);
-
-        $result->execute();
-
-        echo '<p>' . $result->rowCount() . ' Adhérent a été ajouté dans la table Film</p>';
-        echo "<p>Il s'agit de l'adhérent $nom née le $dateNaissance</p>";
-        echo '<p>Son identifiant est : ' . $cnx->lastInsertId() . '</p>';
-    } else {
-        echo "erreur";
-    }
+// Fermeture de la connexion si elle a été établie
+if (isset($cnx)) {
     deconnect_bd('nc231_flowtech');
+}
+?>
+
+<!--FUNCTION AJOUTER MEMBRE-->
+<?php
+include("fonction.php");
+
+$cnx = connect_bd('nc231_flowtech');
+
+if ($cnx) {
+
+
+    $result = $cnx->prepare('INSERT INTO film (nom, prenom, dateNaissance, idGenre)
+                            VALUES (:nom, :prenom, :dateNaissance, :idGenre)');
+    $titre = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $anneeSortie = filter_input(INPUT_POST, "anneeSortie");
+    $affiche = filter_input(INPUT_POST, "affiche", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $idGenre = filter_input(INPUT_POST, "genre");
+    echo $idGenre;
+    $result->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $result->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+    $result->bindParam(':dateNaissance', $dateNaissance, PDO::PARAM_INT);
+    $result->bindParam(':idGenre', $idGenre, PDO::PARAM_INT);
+
+    $result->execute();
+
+    echo '<p>' . $result->rowCount() . ' film a été ajouté dans la table Film</p>';
+    echo "<p>Il s'agit du film $titre sorti en $anneeSortie</p>";
+    echo '<p>Son identifiant est : ' . $cnx->LastInsertId() . '</p>';
+} else {
+    echo "erreur";
+}
+deconnect_bd('cinema');
+?>
+
+<?php
+//Affichage de l'id de la personne sélectionnée
+if (isset($_POST['genre'])) {
+    $idG = $_POST['genre'];
+    echo $idG;
 }
 ?>

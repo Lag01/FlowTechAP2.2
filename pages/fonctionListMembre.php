@@ -5,7 +5,7 @@
             <?php
             require_once('fonction.php');
             // On établit la connexion seulement si elle n'a pas déjà été établie
-            $cnx = connect_bd('$nomBd');
+            $cnx = connect_bd('cinema');
 
             if ($cnx) {
                 // On prépare la requête
@@ -35,7 +35,7 @@ $genreId = isset($_POST['genre']) ? $_POST['genre'] : null;
 
 // Établissement de la connexion
 require_once('fonction.php');
-$cnx = connect_bd('$nomBd');
+$cnx = connect_bd('cinema');
 
 if ($cnx) {
     // Modification de la requête pour inclure la clause WHERE
@@ -83,24 +83,28 @@ if ($cnx) {
         echo "Aucun enregistrement, désolé";
     }
 
-    deconnect_bd('nc231_flowtech');
+    deconnect_bd('cinema');
 }
 ?>
+
+<a href="index.html">Accueil</a>
+
+<!--FONCTION MOTEUR LIST MEMBRE-->
 
 <?php
 
 // Fonction de connexion à la BD 
 function connect_bd($nomBd)
 {
-    $nomServeur = 'nc231_flowtech';
+    $nomServeur = 'localhost';
     //nom du seveur
-    $login = 'nc231_flowtech';
+    $login = 'root';
     //login de l'utilisateur
-    $passWd = "Flowtech123";
+    $passWd = "root";
     // mot de passe
     try {
         // Connexion à la BD et définition du jeu de caractères UTF-8
-        $cnx = new PDO("mysql:host=nc231.myd.infomaniak.com; dbname=$nomBd", $login, $passWd);
+        $cnx = new PDO("mysql:host=localhost; dbname=$nomBd", $login, $passWd);
 
         // PDO génére une erreur fatale si un problème survient. 
         $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -126,3 +130,4 @@ function deconnect_bd($nomBd)
 }
 
 ?>
+<a href="index.html">Accueil </a>
