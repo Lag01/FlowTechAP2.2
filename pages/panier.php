@@ -39,7 +39,7 @@
 			</tfoot>
 		</table>
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-			<a href="../pages/confirmation.html" class="btn btn-success btn-lg px-4" onclick="confirmerCommande()">Confirmer la commande</a>
+			<a href="confirmation.php" class="btn btn-success btn-lg px-4" onclick="confirmerCommande()">Confirmer la commande</a>
 		</div>
 	</div>
 	<!-- FOOTER -->

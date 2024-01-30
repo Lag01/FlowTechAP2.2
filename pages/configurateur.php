@@ -125,7 +125,7 @@
 					<button class="btn btn-flowtech fw-bold shadow" onclick="ajouterAuPanierCustomFromConfigurator()">Ajouter au panier</button>
 				</div>
 				<div class="col-auto">
-					<a class="btn btn-flowtech fw-bold shadow" href="../pages/panier.html">Aller au panier</a>
+					<a class="btn btn-flowtech fw-bold shadow" href="panier.php">Aller au panier</a>
 				</div>
 			</div>
 		</form>
