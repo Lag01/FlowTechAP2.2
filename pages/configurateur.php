@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Configurateur - FlowTech</title>
 	<meta name="description" content="FlowTech, surement les meilleurs PC du marché!" />
-	<link rel="icon" type="image/x-icon" href="/img/logos/logo-min-rounded.png" />
+	<link rel="icon" type="image/x-icon" href="../img/logos/logo-min-rounded.png" />
 	<!-- CSS CUSTOM + BOOTSTRAP -->
-	<link href="/css/custom.css" rel="stylesheet" />
+	<link href="../css/custom.css" rel="stylesheet" />
 	<!-- BOOTSTRAP ICONS-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
 </head>
@@ -33,7 +33,7 @@
 			<div class="row mt-3">
 				<div class="col">
 					<!--CARTE MERE-->
-					<label for="carte-mere" class="form-label text-white fw-bold"><img width="20" src="/icon/carte-mere.png" alt="icon-graphic-card" /> &nbsp;Carte Mère</label>
+					<label for="carte-mere" class="form-label text-white fw-bold"><img width="20" src="../icon/carte-mere.png" alt="icon-graphic-card" /> &nbsp;Carte Mère</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="carte-mere">
 						<option value="135">MSI MPG B550 Gaming Plus</option>
 						<option value="90">Carte Mere GIGABYTE B550M DS3H</option>
@@ -45,7 +45,7 @@
 				</div>
 				<div class="col">
 					<!-- PROCESSEUR -->
-					<label for="processeur" class="form-label text-white fw-bold"><img width="20" src="/icon/processor.png" alt="icon-graphic-card" /> &nbsp;Processeur</label>
+					<label for="processeur" class="form-label text-white fw-bold"><img width="20" src="../icon/processor.png" alt="icon-graphic-card" /> &nbsp;Processeur</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="processeur">
 						<option value="155">Intel® Core™ i5-12400F</option>
 						<option value="300">Intel® Core™ i5-13600KF</option>
@@ -59,7 +59,7 @@
 			</div>
 			<div class="row mt-3">
 				<div class="col">
-					<label for="carte-graphique" class="form-label text-white fw-bold"><img width="20" src="/icon/graphic-card.png" alt="icon-graphic-card" /> &nbsp;Carte graphique</label>
+					<label for="carte-graphique" class="form-label text-white fw-bold"><img width="20" src="../icon/graphic-card.png" alt="icon-graphic-card" /> &nbsp;Carte graphique</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="carte-graphique">
 						<option value="0">Sans</option>
 						<option value="322">ASUS DUAL NVIDIA GeForce RTX 3060 V2 OC Edition 12GB</option>
@@ -74,7 +74,7 @@
 			</div>
 			<div class="row mt-3">
 				<div class="col">
-					<label for="ram" class="form-label text-white fw-bold"><img width="20" src="/icon/ram.png" alt="icon-graphic-card" /> &nbsp;RAM</label>
+					<label for="ram" class="form-label text-white fw-bold"><img width="20" src="../icon/ram.png" alt="icon-graphic-card" /> &nbsp;RAM</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="ram">
 						<option value="25">8GB DDR4</option>
 						<option value="50">16GB DDR5</option>
@@ -84,7 +84,7 @@
 					</select>
 				</div>
 				<div class="col">
-					<label for="stockage" class="form-label text-white fw-bold"><img width="20" src="/icon/ssd.png" alt="icon-graphic-card" /> &nbsp;Stockage</label>
+					<label for="stockage" class="form-label text-white fw-bold"><img width="20" src="../icon/ssd.png" alt="icon-graphic-card" /> &nbsp;Stockage</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="stockage">
 						<option value="25">256GB NVME M.2</option>
 						<option value="60">512GB NVME M.2</option>
@@ -94,7 +94,7 @@
 					</select>
 				</div>
 				<div class="col">
-					<label for="disque-sup" class="form-label text-white fw-bold"><img width="20" src="/icon/disque-dur.png" alt="icon-graphic-card" /> &nbsp;Disque Suplémentaire</label>
+					<label for="disque-sup" class="form-label text-white fw-bold"><img width="20" src="../icon/disque-dur.png" alt="icon-graphic-card" /> &nbsp;Disque Suplémentaire</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="disque-sup">
 						<option value="0">Sans</option>
 						<option value="35">512GB HDD</option>
@@ -105,7 +105,7 @@
 			</div>
 			<div class="row mt-3">
 				<div class="col">
-					<label for="boitier" class="form-label text-white fw-bold"><img width="20" src="/icon/boitier.png" alt="icon-graphic-card" /> &nbsp;Boîtier</label>
+					<label for="boitier" class="form-label text-white fw-bold"><img width="20" src="../icon/boitier.png" alt="icon-graphic-card" /> &nbsp;Boîtier</label>
 					<select class="form-select bg-dark text-white border-flowtech border-2" id="boitier">
 						<option value="65">BT MSI MAG FORGE</option>
 						<option value="90">NZXT H5 Flow Blanc</option>
@@ -125,7 +125,7 @@
 					<button class="btn btn-flowtech fw-bold shadow" onclick="ajouterAuPanierCustomFromConfigurator()">Ajouter au panier</button>
 				</div>
 				<div class="col-auto">
-					<a class="btn btn-flowtech fw-bold shadow" href="/pages/panier.html">Aller au panier</a>
+					<a class="btn btn-flowtech fw-bold shadow" href="panier.php">Aller au panier</a>
 				</div>
 			</div>
 		</form>
@@ -134,8 +134,8 @@
 	<!-- FOOTER -->
 	<?php include 'components/footer.php'; ?>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/js/configurateur.js"></script>
-	<script src="/js/panier.js"></script>
+	<script src="../js/configurateur.js"></script>
+	<script src="../js/panier.js"></script>
 </body>
 
 </html>
