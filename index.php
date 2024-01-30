@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>FlowTech, PC sur mesures</title>
 	<meta name="description" content="FlowTech, surement les meilleurs PC du marché!" />
-	<link rel="icon" type="image/x-icon" href="/img/logos/logo-min-rounded.png" />
+	<link rel="icon" type="image/x-icon" href="./img/logos/logo-min-rounded.png" />
 	<!-- CSS CUSTOM + BOOTSTRAP -->
-	<link href="/css/custom.css" rel="stylesheet" />
+	<link href="./css/custom.css" rel="stylesheet" />
 	<!-- BOOTSTRAP ICONS-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
 </head>
@@ -50,7 +50,7 @@
 			<?php } ?>
 			<div class="row align-items-center g-5 m-0">
 				<div class="col-12 col-lg-6">
-					<img src="/img/rainbox-geforce-rtx.png" class="pp d-block mx-lg-auto img-fluid rounded-5" alt="Bootstrap Themes" width="400" height="400" loading="lazy" />
+					<img src="./img/rainbox-geforce-rtx.png" class="pp d-block mx-lg-auto img-fluid rounded-5" alt="Image PC" width="400" height="400" loading="lazy" />
 				</div>
 				<div class="col-12 col-lg-6">
 					<h1 class="fw-bold text-light">Découvrez nos PC surpuissants montés sur mesure</h1>
@@ -135,7 +135,7 @@
 	</section>
 
 	<!-- FOOTER -->
-	<?php include 'pages/components/footer.php'; ?>
+	<!-- <?php include 'pages/components/footer.php'; ?> -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
 		window.onload = function () {
