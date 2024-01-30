@@ -30,7 +30,7 @@ session_start();
             <?php unset($_SESSION["errorMessage"]); ?>
         <?php endif; ?>
 
-        <form action="login-script.php" method="post">
+        <form action="../pages/script/login-script.php" method="post">
             <h2 class="text-center">Connexion</h2>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username" name="login" required="required">
