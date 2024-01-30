@@ -82,7 +82,7 @@
 											<a class="dropdown-item text-light text-bold" href="./pages/panier.php"><i class="bi bi-cart-fill mx-2"></i>Panier</a>
 										</li>
 										<li>
-											<a class="dropdown-item text-light text-bold" href="./pages/profile.php"><i class="bi bi-person-circle mx-2"></i>Profil</a>
+											<a class="dropdown-item text-light text-bold" href="./pages/profil.php"><i class="bi bi-person-circle mx-2"></i>Profil</a>
 										</li>
 										<li>
 											<a class="dropdown-item text-light text-bold" href="./pages/connexion.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Connexion</a>

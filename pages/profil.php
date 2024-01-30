@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+include_once '../pages/script/authentification.inc.php';
+
+//verification utilisateur connecté
+if (!isset($_SESSION['user'])) {
+	header("Location: ../login-form.php");
+	exit();
+}
+logout();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,7 +18,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Profile - FlowTech</title>
-	<meta name="description" content="FlowTech, surement les meilleurs PC du marché!" />
+	<meta name="description" content="FlowTech, surement les meilleurs PC du marchÃ©!" />
 	<link rel="icon" type="image/x-icon" href="../img/logos/logo-min-rounded.png" />
 	<!-- CSS CUSTOM + BOOTSTRAP -->
 	<link href="../css/custom.css" rel="stylesheet" />
@@ -22,6 +35,9 @@
 			<div class="col-lg-6 mx-auto">
 				<p class="lead mb-4 text-light">Votre profile pour gérer vos informations</p>
 			</div>
+			<h1 class="text-center">Bienvenue
+				<?php echo $_SESSION["user"]; ?>!
+			</h1>
 		</div>
 	</header>
 	<!-- FOOTER -->

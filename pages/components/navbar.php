@@ -41,7 +41,7 @@
 									<a class="dropdown-item text-light text-bold" href="../pages/panier.php"><i class="bi bi-cart-fill mx-2"></i>Panier</a>
 								</li>
 								<li>
-									<a class="dropdown-item text-light text-bold" href="../pages/profile.php"><i class="bi bi-person-circle mx-2"></i>Profil</a>
+									<a class="dropdown-item text-light text-bold" href="../pages/profil.php"><i class="bi bi-person-circle mx-2"></i>Profil</a>
 								</li>
 								<li>
 									<a class="dropdown-item text-light text-bold" href="../pages/connexion.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Connexion</a>
@@ -50,7 +50,7 @@
 									<a class="dropdown-item text-light text-bold" href="../pages/inscription.php"><i class="bi bi-box-arrow-in-right mx-2"></i>Inscription</a>
 								</li>
 								<li>
-									<a class="dropdown-item text-light text-bold"><i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion</a>
+									<a class="dropdown-item text-light text-bold" type="submit" name="logout" class="btn btn-primary btn-block"><i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion</a>
 								</li>
 							</ul>
 						</div>
