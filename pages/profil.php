@@ -1,14 +1,25 @@
 <?php
 session_start();
 
-include_once '../pages/script/authentification.inc.php';
-
-//verification utilisateur connecté
-if (!isset($_SESSION['user'])) {
-	header("Location: ../login-form.php");
+if (isset($_SESSION['user_id'])) {
 	exit();
+} else {
+	//header("Location: /pages/connexion.php");
+	// pour le moment je définit une session manuellement
+	$_SESSION['prenom'] = 'Martin';
+	$_SESSION['nom'] = 'Pêcheur';
+	$_SESSION['pseudo'] = 'Pêcheur';
+	$_SESSION['email'] = 'martinpecheur@gmail.com';
+	$_SESSION['telephone'] = '0123456789';
 }
-logout();
+
+// je récupère les données de ma session en les assignant à des variables
+$prenom = $_SESSION['prenom'];
+$nom = $_SESSION['nom'];
+$pseudonyme = $_SESSION['pseudo'];
+$email = $_SESSION['email'];
+$telephone = $_SESSION['telephone'];
+
 ?>
 
 <!DOCTYPE html>
@@ -35,11 +46,32 @@ logout();
 			<div class="col-lg-6 mx-auto">
 				<p class="lead mb-4 text-light">Votre profile pour gérer vos informations</p>
 			</div>
-			<h1 class="text-center">Bienvenue
-				<?php echo $_SESSION["user"]; ?>!
+			<h1 class="diplay-1 text-light">
+				<?php echo "Bienvenue  $prenom $nom"; ?>
 			</h1>
 		</div>
 	</header>
+
+	<ul class="lead mb-4 text-light">
+		<!-- J'affiche les variables -->
+		<li>Nom:
+			<?php echo $nom ?>
+		</li>
+		<li>Prenom:
+			<?php echo $prenom ?>
+		</li>
+		<li>Pseudonyme:
+			<?php echo $pseudonyme ?>
+		</li>
+		<li>Email:
+			<?php echo $email ?>
+		</li>
+		<li>Téléphone:
+			<?php echo $telephone ?>
+		</li>
+	</ul>
+
+
 	<!-- FOOTER -->
 	<?php include 'components/footer.php'; ?>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
