@@ -2,7 +2,7 @@
 function login($user, $mdp)
 {
     $ret = false;
-    $cnx = connect_bd("base_projet_login");
+    $cnx = connect_bd("nc231_flowtech");
     $st = $cnx->prepare("SELECT * FROM Utilisateur WHERE login=:user");
     $st->bindParam(":user", $user);
     $st->execute();
@@ -21,7 +21,7 @@ function logout()
     if (isset($_POST['logout'])) {
         session_unset();
         session_destroy();
-        header("Location: login-form.php");
+        header("Location: ../connexion.php");
         exit();
     }
 }

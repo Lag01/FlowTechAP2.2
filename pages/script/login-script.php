@@ -26,10 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($user_data && password_verify($mdp, $user_data['pwd'])) {
             $_SESSION["user"] = $user; // Utilisez "user" au lieu de "login"
-            header("Location: profil.php");
+            header("Location: ../profil.php");
         } else {
             $_SESSION['errorMessage'] = "Nom d'utilisateur ou mot de passe incorrect.";
-            header("Location: login-form.php");
+            header("Location: ../connexion.php");
         }
     }
 }

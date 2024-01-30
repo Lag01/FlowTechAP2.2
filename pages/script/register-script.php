@@ -8,12 +8,6 @@ $login = filter_input(
 );
 $mdp = password_hash($_POST["pass"], PASSWORD_DEFAULT);
 
-// $nomServeur = 'nc231.myd.infomaniak.com';
-// //nom du seveur
-// $login = 'nc231_flowtech';
-// //login de l'utilisateur
-// $passWd = "Flowtech123";
-
 try {
     $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
 } catch (Exception $e) {
@@ -42,12 +36,12 @@ if (empty($login) or empty($mdp)) {
 
             $_SESSION["user"] = $login;
 
-            header("Location: profil.php");
+            header("Location: ../profil.php");
             exit();
         }
     }
 }
 
 $_SESSION['errors'] = $errors;
-header("Location: register-form.php");
+header("Location: ../inscription.php");
 exit();
