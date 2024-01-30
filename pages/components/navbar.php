@@ -25,10 +25,10 @@
 			<div class="d-flex" role="search">
 				<ul class="navbar-nav">
 					<li class="nav-item m-1">
-						<a class="btn btn-dark fw-bold text-light shadow" href="./pages/configurateur.php">Configurateur</a>
+						<a class="btn btn-dark fw-bold text-light shadow" href="/pages/configurateur.php">Configurateur</a>
 					</li>
 					<li class="nav-item m-1">
-						<a class="btn btn-dark fw-bold text-light shadow" href="./pages/shop.php">Magasin</a>
+						<a class="btn btn-dark fw-bold text-light shadow" href="/pages/shop.php">Magasin</a>
 					</li>
 					<li class="nav-item m-1">
 						<button class="btn btn-dark fw-bold text-light shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"><i class="bi bi-calendar"></i></button>
