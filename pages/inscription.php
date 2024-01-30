@@ -35,12 +35,12 @@
             <input type="email" class="form-control" id="emailInput">
         </div>
         <div class="mb-2">
-            <label for="passwordInput" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="passwordInput">
-        </div>
-        <div class="mb-2">
             <label for="telephoneInput" class="form-label">Numéro de téléphone</label>
             <input type="text" class="form-control" id="telephoneInput">
+        </div>
+        <div class="mb-2">
+            <label for="passwordInput" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" id="passwordInput">
         </div>
         <div id="emailHelp" class="form-text mb-2">We'll never share your email with anyone else.</div>
 
