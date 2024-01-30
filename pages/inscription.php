@@ -1,51 +1,69 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FlowTech, PC sur mesures</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FlowTech, Inscription</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <meta name="description" content="FlowTech, surement les meilleurs PC du marché!" />
-    <link rel="icon" type="image/x-icon" href="/img/logos/logo-min-rounded.png" />
+    <link rel="icon" type="image/x-icon" href="../img/logos/logo-min-rounded.png" />
     <!-- CSS CUSTOM + BOOTSTRAP -->
-    <link href="/css/custom.css" rel="stylesheet" />
-    <!-- BOOTSTRAP ICONS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+    <link href="../css/custom.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div class="container">
-        <form>
-            <div class="row">
-                <div class="col">
-                    <div class="mb-2">
-                        <label for="nomInput" class="form-label">Nom</label>
-                        <input type="text" class="form-control" id="nomInput">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="mb-2">
-                        <label for="prenomInput" class="form-label">Prénom</label>
-                        <input type="text" class="form-control" id="prenomInput">
-                    </div>
-                </div>
+    <div class="register-form">
+        <form action="../pages/script/register-script.php" method="post">
+            <h2 class="text-center">Créer un compte</h2>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username" name="login" required="required">
+                <?php
+                if (isset($_SESSION['errors'])) {
+                    foreach ($_SESSION['errors'] as $error) {
+                        echo '<p class="text-danger">' . $error . '</p>';
+                    }
+                    unset($_SESSION['errors']);
+                } elseif (isset($_SESSION['success'])) {
+                    echo '<p class="text-success">' . $_SESSION['success'] . '</p>';
+                    unset($_SESSION['success']); // Supprime le message de succès pour qu'il ne s'affiche qu'une fois
+                }
+                ?>
             </div>
-            <div class="mb-2">
-                <label for="emailInput" class="form-label">Adresse mail</label>
-                <input type="email" class="form-control" id="emailInput">
+            <div class="form-group">
+                <input type="password" id="pass" class="form-control" placeholder="Password" name="pass" required>
             </div>
-            <div class="mb-2">
-                <label for="telephoneInput" class="form-label">Numéro de téléphone</label>
-                <input type="text" class="form-control" id="telephoneInput">
+            <div class="form-group">
+                <button type="submit" class="btn btn-flowtech btn-block">Créer</button>
             </div>
-            <div class="mb-2">
-                <label for="passwordInput" class="form-label">Mot de passe</label>
-                <input type="password" class="form-control" id="passwordInput">
+            <div class="clearfix text-center">
+                <a href="../index.php" class="btn-close-hover btn-danger">Retour à l'accueil</a>
             </div>
-            <div id="emailHelp" class="form-text mb-2">We'll never share your email with anyone else.</div>
-
-            <button type="submit" class="btn btn-primary">S'inscrire</button>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!--======================VERIFICATOR=================================-->
+    <div id="message" class="message-form">
+        <form action="register-actions.php" method="post">
+            <h3>Le mot de passe doit contenir les éléments suivants</h3>
+            <div>
+                <p id="letter" class="invalid">Une lettre minuscule</p>
+                <p id="capital" class="invalid">Une lettre majuscule</p>
+                <p id="number" class="invalid">Un chiffre minimum</p>
+                <p id="length" class="invalid">8 caractères minimum</p>
+            </div>
+        </form>
+    </div>
+
+    <!--======================SCRIPT=================================-->
+    <script src="../pages/script/script-login.js"></script>
 </body>
+
+</html>
