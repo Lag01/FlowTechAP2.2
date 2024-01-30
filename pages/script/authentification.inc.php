@@ -1,4 +1,6 @@
 <?php
+session_start();  // Assurez-vous que la session est démarrée
+
 function login($user, $mdp)
 {
     $ret = false;
@@ -21,10 +23,13 @@ function logout()
     if (isset($_POST['logout'])) {
         session_unset();
         session_destroy();
-        header("Location: ../pages/connexion.php");
+        header("Location: ../../pages/connexion.php");  // Utilisez un chemin relatif complet pour la redirection
         exit();
     }
 }
+
+logout();  // Appel de la fonction logout
+
 
 // function getMailLoggedOn()
 // {

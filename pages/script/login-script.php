@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_data = $connexion->fetch(PDO::FETCH_ASSOC);
 
         if ($user_data && password_verify($mdp, $user_data['pwd'])) {
-            $_SESSION["user"] = $user; // Utilisez "user" au lieu de "login"
+            $_SESSION["user_data"] = $user_data;
             header("Location: ../profil.php");
         } else {
             $_SESSION['errorMessage'] = "Nom d'utilisateur ou mot de passe incorrect.";

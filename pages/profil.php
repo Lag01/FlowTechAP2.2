@@ -1,25 +1,26 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user_data'])) {
 	header("Location: ../pages/connexion.php");
 	exit();
 } else {
 	//header("Location: /pages/connexion.php");
-	// pour le moment je définit une session manuellement
+	// pour le moment je définis une session manuellement
 	$_SESSION['prenom'] = 'Martin';
 	$_SESSION['nom'] = 'Pêcheur';
 	$_SESSION['pseudo'] = 'Pêcheur';
 	$_SESSION['email'] = 'martinpecheur@gmail.com';
 	$_SESSION['telephone'] = '0123456789';
+	$_SESSION['Adresse'] = '4 rue de la rue';
 }
 
-// je récupère les données de ma session en les assignant à des variables
-$prenom = $_SESSION['prenom'];
-$nom = $_SESSION['nom'];
-$pseudonyme = $_SESSION['pseudo'];
-$email = $_SESSION['email'];
-$telephone = $_SESSION['telephone'];
+$prenom = $_SESSION['user_data']['Prenom'];
+$nom = $_SESSION['user_data']['Nom'];
+$pseudonyme = $_SESSION['user_data']['login'];
+$email = $_SESSION['user_data']['email'];
+$telephone = $_SESSION['user_data']['numTelephone'];
+$adresse = $_SESSION['user_data']['Adresse'];
 
 ?>
 
@@ -69,6 +70,9 @@ $telephone = $_SESSION['telephone'];
 		</li>
 		<li>Téléphone:
 			<?php echo $telephone ?>
+		</li>
+		<li>Adresse:
+			<?php echo $adresse ?>
 		</li>
 	</ul>
 
