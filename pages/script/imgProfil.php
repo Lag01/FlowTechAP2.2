@@ -45,7 +45,7 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
         $updateImgProfil = $pdo->prepare("UPDATE Utilisateur SET imgProfil = ? WHERE login = ?");
         $updateImgProfil->execute([$imgProfilLink, $pseudonyme]);
 
-        // Redirigez vers la page de profil
+        // Redirection profil.php
         header("Location: profil.php");
         exit();
     } else {
