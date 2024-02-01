@@ -41,7 +41,7 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
 
 
         // Insérez le lien du fichier dans la base de données
-        $imgProfilLink = '../pages/script/imgUser/' . basename($_FILES['photo']['name']);
+        $imgProfilLink = '../pages/script/' . basename($_FILES['photo']['name']);
 
         // Ajoutez votre code pour vous connecter à la base de données et effectuer la mise à jour
         try {

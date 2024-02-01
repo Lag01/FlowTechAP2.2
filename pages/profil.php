@@ -21,7 +21,7 @@ $email = $_SESSION['user_data']['email'];
 $telephone = $_SESSION['user_data']['numTelephone'];
 $adresse = $_SESSION['user_data']['Adresse'];
 
-// Ajoutez une requête pour récupérer le chemin de la photo de profil
+// Ajout de la requête pour récupérer le chemin de la photo de profil
 try {
 	$pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
 } catch (Exception $e) {
@@ -31,7 +31,12 @@ try {
 $getImgProfil = $pdo->prepare("SELECT imgProfil FROM Utilisateur WHERE login = ?");
 $getImgProfil->execute([$pseudonyme]);
 $imgProfilLink = $getImgProfil->fetchColumn();
+
+
+var_dump($imgProfilLink); // Ajoutez cette ligne pour le débogage
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
