@@ -75,7 +75,10 @@ $adresse = $_SESSION['user_data']['Adresse'];
 			<?php echo $adresse ?>
 		</li>
 	</ul>
-
+	<div class="w-50">
+		<label for="photo" class="form-label text-light">Photo de profil :</label>
+		<input type="file" class="form-control" id="photo" name="photo">
+	</div>
 
 	<!-- FOOTER -->
 	<?php include 'components/footer.php'; ?>
