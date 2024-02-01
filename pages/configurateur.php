@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -20,6 +17,9 @@ session_start();
 	<header class="header-25">
 		<!-- NAVBAR -->
 		<?php include 'components/navbar.php'; ?>
+		<?php
+		session_start();
+		?>
 		<div class="px-4 pt-5 my-5 text-center">
 			<h1 class="display-4 fw-bold text-flowtech">Configurateur</h1>
 			<div class="col-lg-6 mx-auto">
