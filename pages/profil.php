@@ -79,7 +79,7 @@ if (isset($_GET['success']) && isset($_GET['message'])) {
 				<?php echo "Bienvenue  $prenom $nom"; ?>
 			</h1>
 			<div>
-				<img src="<?php echo $imgProfilLink; ?>" alt="Photo de profil" class="img-fluid rounded-circle profile-image">
+				<img src="../pages/script/imgUser/<?php echo $imgProfilLink; ?>" alt="Photo de profil" class="img-fluid rounded-circle profile-image">
 			</div>
 
 		</div>
