@@ -5,8 +5,7 @@ if (!isset($_SESSION['user_data'])) {
 	header("Location: ../pages/connexion.php");
 	exit();
 } else {
-	//header("Location: /pages/connexion.php");
-	// pour le moment je définis une session manuellement
+	// Pour le moment, je définis une session manuellement (à remplacer par vos données utilisateur)
 	$_SESSION['prenom'] = 'Martin';
 	$_SESSION['nom'] = 'Pêcheur';
 	$_SESSION['pseudo'] = 'Pêcheur';
@@ -22,6 +21,16 @@ $email = $_SESSION['user_data']['email'];
 $telephone = $_SESSION['user_data']['numTelephone'];
 $adresse = $_SESSION['user_data']['Adresse'];
 
+// Ajoutez une requête pour récupérer le chemin de la photo de profil
+try {
+	$pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
+} catch (Exception $e) {
+	die("Erreur de connexion à la base de données : " . $e->getMessage());
+}
+
+$getImgProfil = $pdo->prepare("SELECT imgProfil FROM Utilisateur WHERE login = ?");
+$getImgProfil->execute([$pseudonyme]);
+$imgProfilLink = $getImgProfil->fetchColumn();
 ?>
 
 <!DOCTYPE html>
@@ -75,6 +84,11 @@ $adresse = $_SESSION['user_data']['Adresse'];
 			<?php echo $adresse ?>
 		</li>
 	</ul>
+
+	<div class="w-50">
+		<img src="<?php echo $imgProfilLink; ?>" alt="Photo de profil" class="img-fluid rounded">
+	</div>
+
 	<div class="w-50">
 		<form action="../pages/script/imgProfil.php" method="post" enctype="multipart/form-data">
 			<!-- Vos champs existants et le champ de téléchargement de photo de profil -->
