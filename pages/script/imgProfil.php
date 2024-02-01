@@ -33,7 +33,7 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
         move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile);
 
         // Insérez le lien du fichier dans la base de données
-        $imgProfilLink = 'imgUser/' . basename($_FILES['photo']['name']);
+        $imgProfilLink = '../imgUser/' . basename($_FILES['photo']['name']);
 
         // Ajoutez votre code pour vous connecter à la base de données et effectuer la mise à jour
         try {
@@ -46,7 +46,7 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
         $updateImgProfil->execute([$imgProfilLink, $pseudonyme]);
 
         // Redirection profil.php
-        header("Location: profil.php");
+        header("Location: ../profil.php");
         exit();
     } else {
         // Gestion d'un type de fichier non autorisé

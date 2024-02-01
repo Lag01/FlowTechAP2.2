@@ -76,8 +76,15 @@ $adresse = $_SESSION['user_data']['Adresse'];
 		</li>
 	</ul>
 	<div class="w-50">
-		<label for="photo" class="form-label text-light">Photo de profil :</label>
-		<input type="file" class="form-control" id="photo" name="photo">
+		<form action="../pages/script/imgProfil.php" method="post" enctype="multipart/form-data">
+			<!-- Vos champs existants et le champ de téléchargement de photo de profil -->
+			<div class="w-50">
+				<label for="photo" class="form-label text-light">Photo de profil :</label>
+				<input type="file" class="form-control" id="photo" name="photo">
+			</div>
+			<button type="submit" class="btn btn-primary">Envoyer</button>
+		</form>
+
 	</div>
 
 	<!-- FOOTER -->
