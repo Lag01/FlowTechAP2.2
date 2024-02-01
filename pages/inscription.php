@@ -25,19 +25,19 @@ session_start();
         <form action="../pages/script/register-script.php" method="post">
             <h2 class="text-center">Créer un compte</h2>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Prénom" name="prenom" required="required">
+                <input type="text" class="form-control" placeholder="Prénom" name="Prenom" required="required">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Nom" name="nom" required="required">
+                <input type="text" class="form-control" placeholder="Nom" name="Nom" required="required">
             </div>
             <div class="form-group">
-                <input type="date" class="form-control" placeholder="Date de naissance" name="date_naissance" required="required">
+                <input type="date" class="form-control" placeholder="Date de naissance" name="dateNaissance" required="required">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Adresse" name="adresse" required="required">
+                <input type="text" class="form-control" placeholder="Adresse" name="Adresse" required="required">
             </div>
             <div class="form-group">
-                <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="numero_telephone" required="required">
+                <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="numTelephone" required="required">
             </div>
             <div class="form-group">
                 <input type="email" class="form-control" placeholder="Email" name="email" required="required">
@@ -57,7 +57,7 @@ session_start();
                 ?>
             </div>
             <div class="form-group">
-                <input type="password" id="pass" class="form-control" placeholder="Password" name="pass" required>
+                <input type="password" id="pass" class="form-control" placeholder="Password" name="pwd" required>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-flowtech btn-block">Créer</button>
