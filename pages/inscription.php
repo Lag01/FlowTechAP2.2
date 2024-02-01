@@ -25,6 +25,24 @@ session_start();
         <form action="../pages/script/register-script.php" method="post">
             <h2 class="text-center">Créer un compte</h2>
             <div class="form-group">
+                <input type="text" class="form-control" placeholder="Prénom" name="prenom" required="required">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nom" name="nom" required="required">
+            </div>
+            <div class="form-group">
+                <input type="date" class="form-control" placeholder="Date de naissance" name="date_naissance" required="required">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Adresse" name="adresse" required="required">
+            </div>
+            <div class="form-group">
+                <input type="tel" class="form-control" placeholder="Numéro de téléphone" name="numero_telephone" required="required">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email" name="email" required="required">
+            </div>
+            <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username" name="login" required="required">
                 <?php
                 if (isset($_SESSION['errors'])) {
