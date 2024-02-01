@@ -28,7 +28,7 @@ function ajouterAuPanier(identifiantProduit) {
 	localStorage.setItem("articlesPanier", JSON.stringify(articlesPanier));
 
 	// Optionnel : vous pouvez rediriger l'utilisateur vers la page du panier
-	window.location.href = "../pages/panier.html";
+	window.location.href = "../pages/panier.php";
 	afficherArticlesPanier();
 }
 
@@ -156,7 +156,7 @@ function confirmerCommande() {
 	// Si l'utilisateur clique sur OK dans le popup, vous pouvez procéder à la suite de votre logique
 	if (confirmation) {
 		// Votre logique ici, par exemple, rediriger l'utilisateur ou effectuer d'autres actions
-		window.location.href = "../pages/confirmation.html";
+		window.location.href = "../pages/confirmation.php";
 	}
 }
 
@@ -238,6 +238,6 @@ function ajouterAuPanierCustomFromConfigurator() {
 
 	if (confirmation) {
 		// Votre logique ici, par exemple, rediriger l'utilisateur ou effectuer d'autres actions
-		window.location.href = "../pages/confirmation.html";
+		window.location.href = "../pages/confirmation.php";
 	}
 }
