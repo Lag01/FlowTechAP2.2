@@ -39,11 +39,9 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
             echo "Erreur PHP : " . $_FILES['photo']['error'];
         }
 
+        $imgProfilLink = '../pages/script/imgUser/' . basename($_FILES['photo']['name']);
+        echo "Chemin du fichier image avant la mise à jour de la base de données : " . $imgProfilLink . "<br>";
 
-        // Insérez le lien du fichier dans la base de données
-        $imgProfilLink = '../pages/script/' . basename($_FILES['photo']['name']);
-
-        // Ajoutez votre code pour vous connecter à la base de données et effectuer la mise à jour
         try {
             $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
         } catch (Exception $e) {
@@ -53,8 +51,9 @@ if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
         $updateImgProfil = $pdo->prepare("UPDATE Utilisateur SET imgProfil = ? WHERE login = ?");
         $updateImgProfil->execute([$imgProfilLink, $pseudonyme]);
 
-        // Redirection profil.php
-        header("Location: ../profil.php");
+        echo "Mise à jour de la base de données effectuée avec succès.<br>";
+
+        header("Location: ../profil.php?success=1&message=Mise à jour de la photo de profil réussie");
         exit();
     } else {
         // Gestion d'un type de fichier non autorisé

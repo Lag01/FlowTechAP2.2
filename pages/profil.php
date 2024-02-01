@@ -32,8 +32,13 @@ $getImgProfil = $pdo->prepare("SELECT imgProfil FROM Utilisateur WHERE login = ?
 $getImgProfil->execute([$pseudonyme]);
 $imgProfilLink = $getImgProfil->fetchColumn();
 
-
-var_dump($imgProfilLink); // Ajoutez cette ligne pour le débogage
+// Affichage des messages de débogage
+if (isset($_GET['success']) && isset($_GET['message'])) {
+	$successMessage = ($_GET['success'] == 1) ? "success" : "danger";
+	echo '<div class="alert alert-' . $successMessage . ' mt-3" role="alert">';
+	echo htmlspecialchars($_GET['message']);
+	echo '</div>';
+}
 
 ?>
 
@@ -51,6 +56,14 @@ var_dump($imgProfilLink); // Ajoutez cette ligne pour le débogage
 	<link href="../css/custom.css" rel="stylesheet" />
 	<!-- BOOTSTRAP ICONS-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+
+	<style>
+		.profile-image {
+			max-width: 100%;
+			max-height: 150px;
+			width: 150px;
+		}
+	</style>
 </head>
 
 <body class="bg-dark">
@@ -65,6 +78,10 @@ var_dump($imgProfilLink); // Ajoutez cette ligne pour le débogage
 			<h1 class="diplay-1 text-light">
 				<?php echo "Bienvenue  $prenom $nom"; ?>
 			</h1>
+			<div>
+				<img src="<?php echo $imgProfilLink; ?>" alt="Photo de profil" class="img-fluid rounded-circle profile-image">
+			</div>
+
 		</div>
 	</header>
 
@@ -88,27 +105,21 @@ var_dump($imgProfilLink); // Ajoutez cette ligne pour le débogage
 		<li>Adresse:
 			<?php echo $adresse ?>
 		</li>
+
+		<div class="w-50 mt-2">
+			<form action="../pages/script/imgProfil.php" method="post" enctype="multipart/form-data">
+				<div class="w-50">
+					<label for="photo" class="form-label text-light">Modifier la photo de profil :</label>
+					<input type="file" class="form-control" id="photo" name="photo">
+				</div>
+				<button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+			</form>
+		</div>
 	</ul>
-
-	<div class="w-50">
-		<img src="<?php echo $imgProfilLink; ?>" alt="Photo de profil" class="img-fluid rounded">
-	</div>
-
-	<div class="w-50">
-		<form action="../pages/script/imgProfil.php" method="post" enctype="multipart/form-data">
-			<!-- Vos champs existants et le champ de téléchargement de photo de profil -->
-			<div class="w-50">
-				<label for="photo" class="form-label text-light">Photo de profil :</label>
-				<input type="file" class="form-control" id="photo" name="photo">
-			</div>
-			<button type="submit" class="btn btn-primary">Envoyer</button>
-		</form>
-
-	</div>
-
 	<!-- FOOTER -->
 	<?php include 'components/footer.php'; ?>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
