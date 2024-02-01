@@ -23,17 +23,25 @@ $adresse = $_SESSION['user_data']['Adresse'];
 
 // Traitement de la photo de profil
 if ($_FILES['photo']['error'] == UPLOAD_ERR_OK) {
-    $uploadDir = '../imgUser/';
+    $uploadDir = 'imgUser/';
     $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
     $imageFileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
 
     // Vérifiez le type de fichier (vous pouvez ajouter d'autres formats supportés)
     if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
         // Déplacez le fichier téléchargé vers le dossier imgUser
-        move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile);
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
+            // Le fichier a été téléchargé avec succès
+            echo "Le fichier a été déplacé avec succès.";
+        } else {
+            // Il y a une erreur lors du déplacement du fichier
+            echo "Erreur lors du déplacement du fichier. ";
+            echo "Erreur PHP : " . $_FILES['photo']['error'];
+        }
+
 
         // Insérez le lien du fichier dans la base de données
-        $imgProfilLink = '../imgUser/' . basename($_FILES['photo']['name']);
+        $imgProfilLink = 'imgUser/' . basename($_FILES['photo']['name']);
 
         // Ajoutez votre code pour vous connecter à la base de données et effectuer la mise à jour
         try {
