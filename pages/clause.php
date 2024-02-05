@@ -50,6 +50,7 @@ session_start();
 		confidentialité de temps à autre afin d'y refléter, par exemple, les changements apportés à nos pratiques ou pour d'autres motifs opérationnels, juridiques ou réglementaires. NOUS CONTACTER Pour en savoir plus sur nos pratiques de confidentialité, si vous avez des questions ou si vous souhaitez déposer une réclamation, veuillez nous contacter par e-mail à contact@adam-marzuk.fr, ou par courrier à l'adresse suivante : Lycée CCI Gard, 1 Av. du Général Leclerc, Nîmes, Gard, 30000, France
 	</p>
 	<!-- FOOTER -->
+	<?php include 'pages/components/cookies.php'; ?>
 	<?php include 'components/footer.php'; ?>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
