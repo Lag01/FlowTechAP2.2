@@ -142,6 +142,8 @@ session_start();
 			<div class="mt-5 align-content-center d-flex justify-content-center">
 				<a class="btn btn-flowtech btn-lg text-dark mt-5 fw-bold heartbeat" href="#services"><i class="bi-caret-down-fill"></i>&nbsp;Découvrir&nbsp;<i class="bi-caret-down-fill"></i></a>
 			</div>
+			<?php include 'pages/components/cookies.php'; ?>
+
 		</div>
 	</header>
 	<!-- SERVICES-->
