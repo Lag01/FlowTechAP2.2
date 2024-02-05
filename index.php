@@ -142,8 +142,8 @@ session_start();
 			<div class="mt-5 align-content-center d-flex justify-content-center">
 				<a class="btn btn-flowtech btn-lg text-dark mt-5 fw-bold heartbeat" href="#services"><i class="bi-caret-down-fill"></i>&nbsp;Découvrir&nbsp;<i class="bi-caret-down-fill"></i></a>
 			</div>
-			<?php include 'pages/components/cookies.php'; ?>
-
+			<script type="text/javascript" src="https://cookieconsent.popupsmart.com/src/js/popper.js"></script>
+			<script> window.start.init({ Palette: "palette1", Mode: "floating right", Theme: "classic", Message: "Ce site Web utilise des cookies pour vous garantir la meilleure expérience sur notre site Web.", ButtonText: "J'accepte", LinkText: "Plus encore", Location: "../pages/politique-cookies.php", Time: "5", })</script>
 		</div>
 	</header>
 	<!-- SERVICES-->
