@@ -46,15 +46,15 @@
         <th>Sexe</th>
     </tr>
     <?php
-    Connexion à la base de données
-        $servername = "nc231.myd.infomaniak.com";
-        $username = "nc231_flowtech";
-        $password = "Flowtech123";
-        $dbname = "nc231_flowtech";
-//    $servername = "localhost";
-//    $username = "root";
-//    $password = "";
-//    $dbname = "flowtechap2";
+    //Connexion à la base de données
+    $servername = "nc231.myd.infomaniak.com";
+    $username = "nc231_flowtech";
+    $password = "Flowtech123";
+    $dbname = "nc231_flowtech";
+    //    $servername = "localhost";
+    //    $username = "root";
+    //    $password = "";
+    //    $dbname = "flowtechap2";
 
     // Connexion
     $conn = new mysqli($servername, $username, $password, $dbname);
