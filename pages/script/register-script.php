@@ -9,6 +9,7 @@ $numero_telephone = filter_input(INPUT_POST, "numTelephone", FILTER_SANITIZE_STR
 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
 $login = filter_input(INPUT_POST, "login", FILTER_SANITIZE_STRING);
 $mdp = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
+$sexe = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_STRING); // Récupération du champ "Sexe"
 
 try {
     $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
@@ -31,8 +32,8 @@ if (empty($prenom) || empty($nom) || empty($date_naissance) || empty($adresse) |
         if ($checkUser->rowCount() > 0) {
             $errors[] = "Ce nom d'utilisateur existe déjà.";
         } else {
-            $ins = $pdo->prepare("INSERT INTO Utilisateur (Prenom, Nom, dateNaissance, Adresse, numTelephone, email, login, pwd) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-            $ins->execute(array($prenom, $nom, $date_naissance, $adresse, $numero_telephone, $email, $login, $mdp));
+            $ins = $pdo->prepare("INSERT INTO Utilisateur (Prenom, Nom, dateNaissance, Adresse, numTelephone, email, login, pwd, Sexe) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"); // Ajout de "Sexe" dans la requête d'insertion
+            $ins->execute(array($prenom, $nom, $date_naissance, $adresse, $numero_telephone, $email, $login, $mdp, $sexe));
 
             $_SESSION["user"] = $login;
 
