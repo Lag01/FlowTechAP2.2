@@ -9,31 +9,41 @@ session_start();
 //};
 
 // Connexion à la DB
-/*$servername = "nc231.myd.infomaniak.com";
+$servername = "nc231.myd.infomaniak.com";
 $username = "nc231_flowtech";
 $password = "Flowtech123";
-$dbname = "nc231_flowtech";*/
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "flowtechap2";
-
+$dbname = "nc231_flowtech";
+//$servername = "localhost";
+//$username = "root";
+//$password = "";
+//$dbname = "flowtechap2";
 $conn = new mysqli($servername, $username, $password, $dbname);
+
 // Test la connexion
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Je définis manuellement l'ID car il n'est pas dans la sessions
+$_SESSION['id'] = '56';
+$id = $_SESSION['id'];
+
 // Récupère les evenements
 $sql = "SELECT idEvenement, dateEvenement, nomEvenement FROM Evenement";
 $result = $conn->query($sql);
 
+// Inscrit l'utilisateur aux évenements
 if (isset($_POST['submit'])) {
     if (!empty($_POST['evenement'])) {
         $selected = $_POST['evenement'];
         echo 'Vous êtes inscrit à l\'evenement: ' . $selected;
         $selected = $conn->real_escape_string($selected);
-        $sql = "INSERT INTO Inscription (idEvenement) VALUES ('$selected')";
+        $sql = "INSERT INTO Inscription (idUtilisateur, idEvenement, present) VALUES ('$id', '$selected', '1')";
+        if ($conn->query($sql) === TRUE) {
+            echo 'L\'événement a été ajouté à la base de données avec succès.';
+        } else {
+            echo 'Erreur lors de l\'ajout de l\'événement à la base de données : ' . $conn->error;
+        }
     } else {
         echo 'Choisissez une valeur';
     }
@@ -72,6 +82,13 @@ if (isset($_POST['submit'])) {
         </select>
         <input type="submit" name="submit" value="Envoyer">
     </form>
+    <table>
+        <tr>
+            <th>Vous êtes isncrits à</th>
+        </tr>
+
+    </table>
+
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
