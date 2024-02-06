@@ -73,7 +73,7 @@ $result = $conn->query($sql);
             echo "<td>" . $row["Adresse"] . "</td>";
             echo "<td>" . $row["login"] . "</td>";
             echo "<td>" . $row["numTelephone"] . "</td>";
-            echo "<td>" . $row["Sexe"] . "</td>";
+            echo "<td>" . ($row["Sexe"] == 1 ? "Homme" : "Femme") . "</td>";
             echo "</tr>";
         }
     } else {
