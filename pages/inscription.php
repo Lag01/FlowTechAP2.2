@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -59,6 +55,14 @@ session_start();
             <div class="form-group">
                 <input type="password" id="pass" class="form-control" placeholder="Password" name="pwd" required>
             </div>
+            <div class="form-group">
+                <label for="sexe">Sexe:</label>
+                <select class="form-control" id="sexe" name="sexe">
+                    <option value="1">Homme</option>
+                    <option value="0">Femme</option>
+                </select>
+            </div>
+
             <div class="form-group">
                 <button type="submit" class="btn btn-flowtech btn-block">Créer</button>
             </div>
