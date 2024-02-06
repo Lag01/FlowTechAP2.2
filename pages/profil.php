@@ -108,6 +108,7 @@ if (isset($_GET['success']) && isset($_GET['message'])) {
         <?php echo $adresse ?>
     </li>
 
+<<<<<<< HEAD
     <div class="w-50 mt-2">
         <form action="../pages/script/imgProfil.php" method="post" enctype="multipart/form-data">
             <div class="w-50">
@@ -121,6 +122,22 @@ if (isset($_GET['success']) && isset($_GET['message'])) {
 <!-- FOOTER -->
 <?php include 'components/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+=======
+		<div class="w-50 mt-2">
+			<form action="../pages/script/imgProfil.php" method="post" enctype="multipart/form-data">
+				<div class="w-50">
+					<label for="photo" class="form-label text-light">Modifier la photo de profil :</label>
+					<input type="file" class="form-control" id="photo" name="photo">
+				</div>
+				<button type="submit" class="btn btn-primary mt-2">Envoyer</button>
+			</form>
+		</div>
+	</ul>
+	<!-- FOOTER -->
+	<?php include '../pages/components/cookies.php'; ?>
+	<?php include 'components/footer.php'; ?>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+>>>>>>> f234ade401367624e378f3627ef1806d5f03ea59
 
 </body>
 
