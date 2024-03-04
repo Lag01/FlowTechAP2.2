@@ -84,21 +84,25 @@ if ($cnx) {
     // Affichage des résultats
     if ($result->rowCount() > 0) {
         echo "<table border='1'>";
-        echo "<tr>";
-        echo "<th>idUtilisateur</th>";
-        echo "<th>Nom</th>";
-        echo "<th>Prenom</th>";
-        echo "<th>email</th>";
-        echo "<th>dateNaissance</th>";
-        echo "<th>Sexe</th>";
-        echo "<th>Adresse</th>";
-        echo "<th>Pseudo</th>";
-        echo "<th>numTelephone</th>";
-        echo "<th>Modifier</th>";
-        echo "<th>Supprimer</th>";
+        echo "<thead>";
+        echo "<tr class='table-flowtech'>";
+        echo "<th scope='col'>idUtilisateur</th>";
+        echo "<th scope='col'>Nom</th>";
+        echo "<th scope='col'>Prenom</th>";
+        echo "<th scope='col'>email</th>";
+        echo "<th scope='col'>dateNaissance</th>";
+        echo "<th scope='col'>Sexe</th>";
+        echo "<th scope='col'>Adresse</th>";
+        echo "<th scope='col'>Pseudo</th>";
+        echo "<th scope='col'>numTelephone</th>";
+        echo "<th scope='col'>Modifier</th>";
+        echo "<th scope='col'>Supprimer</th>";
         echo "</tr>";
+        echo "<thead>";
+
 
         while ($donnees = $result->fetch()) {
+            echo "<tbody >";
             echo "<form action=" . $_SERVER['PHP_SELF'] . " method='post'>";
             echo "<input type='hidden' name='cle' value='" . $donnees['idUtilisateur'] . "'>";
             echo "<tr>";
@@ -120,6 +124,7 @@ if ($cnx) {
             echo "<td><input type='submit' name='delete' value='Supprimer'></td>";
             echo "</tr>";
             echo "</form>";
+            echo "<tbody>";
         }
         echo "</table>";
     } else {
