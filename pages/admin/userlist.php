@@ -1,102 +1,130 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Liste des utilisateurs</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table, th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-
-<h2>Liste des utilisateurs</h2>
-
-<form id="filterForm" action="" method="get">
-    <label for="sexe">Filtrer par sexe :</label>
-    <select name="sexe" id="sexe">
-        <option value="">Tous</option>
-        <option value="1" <?php if (isset($_GET['sexe']) && $_GET['sexe'] == '1') echo 'selected'; ?>>Homme</option>
-        <option value="0" <?php if (isset($_GET['sexe']) && $_GET['sexe'] == '0') echo 'selected'; ?>>Femme</option>
-    </select>
-    <input type="submit" value="Filtrer">
-</form>
-
-<table id="userTable">
-    <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Email</th>
-        <th>Date de Naissance</th>
-        <th>Adresse</th>
-        <th>Login</th>
-        <th>Numéro de téléphone</th>
-        <th>Sexe</th>
-    </tr>
-    <?php
-    //Connexion à la base de données
-    $servername = "nc231.myd.infomaniak.com";
-    $username = "nc231_flowtech";
-    $password = "Flowtech123";
-    $dbname = "nc231_flowtech";
-    //    $servername = "localhost";
-    //    $username = "root";
-    //    $password = "";
-    //    $dbname = "flowtechap2";
-
-    // Connexion
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("Connexion échouée : " . $conn->connect_error);
-    }
-
-    // Requête pour récupérer les utilisateurs
-    $sql = "SELECT idUtilisateur, Nom, Prenom, email, dateNaissance, Adresse, login, numTelephone, Sexe FROM Utilisateur";
-    if (isset($_GET['sexe']) && ($_GET['sexe'] === '1' || $_GET['sexe'] === '0')) {
-        $sexe = $_GET['sexe'];
-        $sql .= " WHERE Sexe = $sexe";
-    }
-    $result = $conn->query($sql);
-
-    // Afficher les données dans le tableau
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr>";
-            echo "<td>" . $row["idUtilisateur"] . "</td>";
-            echo "<td>" . $row["Nom"] . "</td>";
-            echo "<td>" . $row["Prenom"] . "</td>";
-            echo "<td>" . $row["email"] . "</td>";
-            echo "<td>" . $row["dateNaissance"] . "</td>";
-            echo "<td>" . $row["Adresse"] . "</td>";
-            echo "<td>" . $row["login"] . "</td>";
-            echo "<td>" . $row["numTelephone"] . "</td>";
-            echo "<td>" . ($row["Sexe"] == 1 ? "Homme" : "Femme") . "</td>";
-            echo "</tr>";
-        }
-    } else {
-        echo "<tr><td colspan='9'>0 résultats</td></tr>";
-    }
-    ?>
-</table>
-
-</body>
-</html>
-
 <?php
-// Fermer la connexion
-$conn->close();
+require_once('fonction.php');
+
+// Récupération de la valeur du genre sélectionné
+$genreId = isset($_POST['sexe']) ? $_POST['sexe'] : null;
+
+// Établissement de la connexion
+$cnx = connect_bd('Utilisateur');
+
+if ($cnx) {
+    if (isset($_REQUEST['delete'])) {
+        $result = $cnx->prepare("DELETE FROM Utilisateur WHERE idUtilisateur = :cle");
+        $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
+        if ($idUtilisateur !== null) {
+            $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
+            $result->execute(); // Exécution de la requête DELETE
+        } else {
+            echo "Erreur: idUtilisateur non spécifié.";
+        }
+    }
+    // L'utilisateur a cliqué sur "Modifier"
+    elseif (isset($_REQUEST['update'])) {
+        // Préparation de la requête UPDATE
+        $result = $cnx->prepare("UPDATE Utilisateur SET Nom=:Nom, Prenom=:Prenom, email=:email, dateNaissance=:dateNaissance, Sexe=:Sexe, Adresse=:Adresse, login=:login, numTelephone=:numTelephone WHERE idUtilisateur=:cle");
+        // On récupère les valeurs postées dans une variable
+        $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
+        if ($idUtilisateur !== null) {
+            $Nom = $_REQUEST['Nom'];
+            $Prenom = $_REQUEST['Prenom'];
+            $email = $_REQUEST['email'];
+            $dateNaissance = $_REQUEST['dateNaissance'];
+            $Sexe = $_REQUEST['Sexe'];
+            $Adresse = $_REQUEST['Adresse'];
+            $login = $_REQUEST['login'];
+            $numTelephone = $_REQUEST['numTelephone'];
+
+            // On lie chaque marqueur à sa variable
+            $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
+            $result->bindParam(':Nom', $Nom, PDO::PARAM_STR);
+            $result->bindParam(':Prenom', $Prenom, PDO::PARAM_STR);
+            $result->bindParam(':email', $email, PDO::PARAM_STR);
+            $result->bindParam(':dateNaissance', $dateNaissance, PDO::PARAM_STR);
+            $result->bindParam(':Sexe', $Sexe, PDO::PARAM_INT); // Utiliser PARAM_INT pour le sexe
+            $result->bindParam(':Adresse', $Adresse, PDO::PARAM_STR);
+            $result->bindParam(':login', $login, PDO::PARAM_STR);
+            $result->bindParam(':numTelephone', $numTelephone, PDO::PARAM_STR);
+
+            $result->execute(); // Exécution de la requête UPDATE
+        } else {
+            echo "Erreur: idUtilisateur non spécifié.";
+        }
+    }
+
+    // Affichage du formulaire de filtrage
+    echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
+    echo '<fieldset>';
+    echo '<label for="sexe">Filtrer par sexe :</label>';
+    echo '<select name="sexe">';
+    echo '<option value="">Tous</option>'; // Option par défaut
+    echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
+    echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
+    echo '</select>';
+    echo '<input type="submit" value="Filtrer" />';
+    echo '</fieldset>';
+    echo '</form>';
+
+    // Modification de la requête pour inclure la clause WHERE
+    $query = 'SELECT * FROM Utilisateur WHERE 1';
+
+    if ($genreId !== null && $genreId !== '') {
+        $query .= ' AND Sexe = :sexe';
+    }
+
+    $result = $cnx->prepare($query);
+
+    // Liaison des paramètres si le genre est sélectionné
+    if ($genreId !== null && $genreId !== '') {
+        $result->bindParam(':sexe', $genreId, PDO::PARAM_INT);
+    }
+
+    // Exécution de la requête
+    $result->execute();
+
+    // Affichage des résultats
+    if ($result->rowCount() > 0) {
+        echo "<table border='1'>";
+        echo "<tr>";
+        echo "<th>idUtilisateur</th>";
+        echo "<th>Nom</th>";
+        echo "<th>Prenom</th>";
+        echo "<th>email</th>";
+        echo "<th>dateNaissance</th>";
+        echo "<th>Sexe</th>";
+        echo "<th>Adresse</th>";
+        echo "<th>Pseudo</th>";
+        echo "<th>numTelephone</th>";
+        echo "<th>Modifier</th>";
+        echo "<th>Supprimer</th>";
+        echo "</tr>";
+
+        while ($donnees = $result->fetch()) {
+            echo "<form action=" . $_SERVER['PHP_SELF'] . " method='post'>";
+            echo "<input type='hidden' name='cle' value='" . $donnees['idUtilisateur'] . "'>";
+            echo "<tr>";
+            echo "<td>" . $donnees['idUtilisateur'] . "</td>";
+            echo "<td><input type='text' name='Nom'size='20' value='" . $donnees['Nom'] . "'></td>";
+            echo "<td><input type='text' name='Prenom'size='20' value='" . $donnees['Prenom'] . "'></td>";
+            echo "<td><input type='text' name='email'size='20' value='" . $donnees['email'] . "'></td>";
+            echo "<td><input type='text' name='dateNaissance'size='20' value='" . $donnees['dateNaissance'] . "'></td>";
+            echo "<td>";
+            echo "<select name='Sexe'>";
+            echo "<option value='0'" . ($donnees['Sexe'] == 0 ? ' selected' : '') . ">Homme</option>";
+            echo "<option value='1'" . ($donnees['Sexe'] == 1 ? ' selected' : '') . ">Femme</option>";
+            echo "</select>";
+            echo "</td>";
+            echo "<td><input type='text' name='Adresse'size='20' value='" . $donnees['Adresse'] . "'></td>";
+            echo "<td><input type='text' name='login'size='20' value='" . $donnees['login'] . "'></td>";
+            echo "<td><input type='text' name='numTelephone'size='20' value='" . $donnees['numTelephone'] . "'></td>";
+            echo "<td><input type='submit' name='update' value='Modifier'></td>";
+            echo "<td><input type='submit' name='delete' value='Supprimer'></td>";
+            echo "</tr>";
+            echo "</form>";
+        }
+        echo "</table>";
+    } else {
+        echo "Aucun enregistrement, désolé";
+    }
+    deconnect_bd('Utilisateur');
+}
 ?>
