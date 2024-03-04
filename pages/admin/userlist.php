@@ -120,8 +120,8 @@ if ($cnx) {
             echo "<td><input type='text' name='Adresse'size='20' value='" . $donnees['Adresse'] . "'></td>";
             echo "<td><input type='text' name='login'size='20' value='" . $donnees['login'] . "'></td>";
             echo "<td><input type='text' name='numTelephone'size='20' value='" . $donnees['numTelephone'] . "'></td>";
-            echo "<td><input type='submit' name='update' value='Modifier'></td>";
-            echo "<td><input type='submit' name='delete' value='Supprimer'></td>";
+            echo "<td><input class='btn btn-primary' type='submit' name='update' value='Modifier'></td>";
+            echo "<td><input class='btn btn-danger' type='submit' name='delete' value='Supprimer'></td>";
             echo "</tr>";
             echo "</form>";
             echo "<tbody>";
