@@ -21,7 +21,6 @@ function connect_bd($nomBd)
         // Jeu de caractères
         $cnx->exec("SET CHARACTER SET utf8");
 
-        echo "connecté !";
         return $cnx;
 
     } catch (PDOException $e) {
