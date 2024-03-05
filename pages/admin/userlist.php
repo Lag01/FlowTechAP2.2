@@ -91,44 +91,28 @@
         }
         // Debut container
         echo '<section class="container">';
-        // Affichage du formulaire de filtrage
-        echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
-        echo '<fieldset>';
-        echo '<label for="sexe">Filtrer par sexe :</label>';
-        echo '<select name="sexe">';
-        echo '<option value="">Tous</option>'; // Option par défaut
-        echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
-        echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
-        echo '</select>';
-        echo '<input type="submit" value="Filtrer" />';
-        echo '</fieldset>';
-        echo '</form>';
-
         // Affichage du formulaire d'inscription
         echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
-        echo '<h4>Insérer un utilisateur</h4>';
-        echo '<label for="Nom">Nom :</label>';
-        echo '<input type="text" name="Nom" required><br>';
-        echo '<label for="Prenom">Prénom :</label>';
-        echo '<input type="text" name="Prenom" required><br>';
-        echo '<label for="email">Email :</label>';
-        echo '<input type="email" name="email" required><br>';
-        echo '<label for="dateNaissance">Date de Naissance :</label>';
-        echo '<input type="date" name="dateNaissance" required><br>';
-        echo '<label for="Sexe">Sexe :</label>';
-        echo '<select name="Sexe" required>';
-        echo '<option value="0">Homme</option>';
-        echo '<option value="1">Femme</option>';
-        echo '</select><br>';
-        echo '<label for="Adresse">Adresse :</label>';
-        echo '<input type="text" name="Adresse" required><br>';
-        echo '<label for="login">Login :</label>';
-        echo '<input type="text" name="login" required><br>';
-        echo '<label for="numTelephone">Numéro de Téléphone :</label>';
-        echo '<input type="text" name="numTelephone" required><br>';
-        echo '<input type="submit" name="inscription" value="Inscription">';
-        echo '</form>';
+        ?>
+        <div class="row mx-5 px-5">
+            <h4>Insérer un utilisateur</h4>
 
+            <input type="text" name="Nom" placeholder="Nom" required class="mt-1">
+            <input type="text" name="Prenom" placeholder="Prénom" required class="mt-1">
+            <input type="email" name="email" placeholder="Email" required class="mt-1">
+            <input type="date" name="dateNaissance" placeholder="Date de naissance" required class="mt-1">
+            <select name="Sexe" required class="mt-1">
+                <option value="0">Homme</option>
+                <option value="1">Femme</option>
+            </select>
+            <input type="text" name="Adresse" placeholder="Adresse" required class="mt-1">
+            <input type="text" name="login" placeholder="Pseudo" required class="mt-1">
+            <input type="text" name="numTelephone" placeholder="Téléphone" required class="mt-1">
+            <input type="submit" name="inscription" value="Inscription" class="mt-2 btn btn-flowtech btn-sm mt-1">
+        </div>
+        </form>
+
+        <?php
         // Affichage des résultats
         $query = 'SELECT * FROM Utilisateur WHERE 1';
 
@@ -145,6 +129,18 @@
         $result->execute();
 
 
+        // Affichage du formulaire de filtrage
+        echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
+        echo '<fieldset>';
+        echo '<label for="sexe">Filtrer par sexe :</label>';
+        echo '<select name="sexe">';
+        echo '<option value="">Tous</option>'; // Option par défaut
+        echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
+        echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
+        echo '</select>';
+        echo '<input type="submit" value="Filtrer" />';
+        echo '</fieldset>';
+        echo '</form>';
 
         echo "<div style='overflow: auto;'>";
         if ($result->rowCount() > 0) {
