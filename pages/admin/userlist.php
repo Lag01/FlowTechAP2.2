@@ -150,7 +150,7 @@ session_start();
 
         if ($result->rowCount() > 0) {
             echo "<table border='1'>";
-            echo "<tr>";
+            echo "<tr class='table-warning'>";
             echo "<th>idUtilisateur</th>";
             echo "<th>Nom</th>";
             echo "<th>Prenom</th>";
@@ -197,8 +197,8 @@ session_start();
     ?>
 
     <!-- FOOTER -->
-    <?php include '../pages/components/cookies.php'; ?>
-    <?php include 'components/footer.php'; ?>
+    <?php include '/pages/components/cookies.php'; ?>
+    <?php include '/pages/components/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
