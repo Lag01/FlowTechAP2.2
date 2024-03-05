@@ -138,7 +138,7 @@
         echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
         echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
         echo '</select>';
-        echo '<input type="submit" value="Filtrer" />';
+        echo '<input type="submit" value="Filtrer" class="btn btn-sm btn-flowtech" />';
         echo '</fieldset>';
         echo '</form>';
 
