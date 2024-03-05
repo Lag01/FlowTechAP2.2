@@ -7,22 +7,48 @@ $genreId = isset($_POST['sexe']) ? $_POST['sexe'] : null;
 // Établissement de la connexion
 $cnx = connect_bd('Utilisateur');
 
+// Traitement de l'inscription
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
+    $Nom = $_POST['Nom'];
+    $Prenom = $_POST['Prenom'];
+    $email = $_POST['email'];
+    $dateNaissance = $_POST['dateNaissance'];
+    $Sexe = $_POST['Sexe'];
+    $Adresse = $_POST['Adresse'];
+    $login = $_POST['login'];
+    $numTelephone = $_POST['numTelephone'];
+
+    if ($cnx) {
+        $result = $cnx->prepare("INSERT INTO Utilisateur (Nom, Prenom, email, dateNaissance, Sexe, Adresse, login, numTelephone) VALUES (:Nom, :Prenom, :email, :dateNaissance, :Sexe, :Adresse, :login, :numTelephone)");
+        $result->bindParam(':Nom', $Nom, PDO::PARAM_STR);
+        $result->bindParam(':Prenom', $Prenom, PDO::PARAM_STR);
+        $result->bindParam(':email', $email, PDO::PARAM_STR);
+        $result->bindParam(':dateNaissance', $dateNaissance, PDO::PARAM_STR);
+        $result->bindParam(':Sexe', $Sexe, PDO::PARAM_INT);
+        $result->bindParam(':Adresse', $Adresse, PDO::PARAM_STR);
+        $result->bindParam(':login', $login, PDO::PARAM_STR);
+        $result->bindParam(':numTelephone', $numTelephone, PDO::PARAM_STR);
+        $result->execute();
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    } else {
+        echo "Erreur de connexion à la base de données.";
+    }
+}
+
 if ($cnx) {
     if (isset($_REQUEST['delete'])) {
         $result = $cnx->prepare("DELETE FROM Utilisateur WHERE idUtilisateur = :cle");
         $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
         if ($idUtilisateur !== null) {
             $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
-            $result->execute(); // Exécution de la requête DELETE
+            $result->execute();
         } else {
             echo "Erreur: idUtilisateur non spécifié.";
         }
-    }
-    // L'utilisateur a cliqué sur "Modifier"
-    elseif (isset($_REQUEST['update'])) {
-        // Préparation de la requête UPDATE
+    } elseif (isset($_REQUEST['update'])) {
         $result = $cnx->prepare("UPDATE Utilisateur SET Nom=:Nom, Prenom=:Prenom, email=:email, dateNaissance=:dateNaissance, Sexe=:Sexe, Adresse=:Adresse, login=:login, numTelephone=:numTelephone WHERE idUtilisateur=:cle");
-        // On récupère les valeurs postées dans une variable
         $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
         if ($idUtilisateur !== null) {
             $Nom = $_REQUEST['Nom'];
@@ -34,18 +60,17 @@ if ($cnx) {
             $login = $_REQUEST['login'];
             $numTelephone = $_REQUEST['numTelephone'];
 
-            // On lie chaque marqueur à sa variable
             $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
             $result->bindParam(':Nom', $Nom, PDO::PARAM_STR);
             $result->bindParam(':Prenom', $Prenom, PDO::PARAM_STR);
             $result->bindParam(':email', $email, PDO::PARAM_STR);
             $result->bindParam(':dateNaissance', $dateNaissance, PDO::PARAM_STR);
-            $result->bindParam(':Sexe', $Sexe, PDO::PARAM_INT); // Utiliser PARAM_INT pour le sexe
+            $result->bindParam(':Sexe', $Sexe, PDO::PARAM_INT);
             $result->bindParam(':Adresse', $Adresse, PDO::PARAM_STR);
             $result->bindParam(':login', $login, PDO::PARAM_STR);
             $result->bindParam(':numTelephone', $numTelephone, PDO::PARAM_STR);
 
-            $result->execute(); // Exécution de la requête UPDATE
+            $result->execute();
         } else {
             echo "Erreur: idUtilisateur non spécifié.";
         }
@@ -64,7 +89,32 @@ if ($cnx) {
     echo '</fieldset>';
     echo '</form>';
 
-    // Modification de la requête pour inclure la clause WHERE
+    // Affichage du formulaire d'inscription
+    echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
+    echo '<h2>Listage des utilisateur</h2>';
+    echo '<label for="Nom">Nom :</label>';
+    echo '<input type="text" name="Nom" required><br>';
+    echo '<label for="Prenom">Prénom :</label>';
+    echo '<input type="text" name="Prenom" required><br>';
+    echo '<label for="email">Email :</label>';
+    echo '<input type="email" name="email" required><br>';
+    echo '<label for="dateNaissance">Date de Naissance :</label>';
+    echo '<input type="date" name="dateNaissance" required><br>';
+    echo '<label for="Sexe">Sexe :</label>';
+    echo '<select name="Sexe" required>';
+    echo '<option value="0">Homme</option>';
+    echo '<option value="1">Femme</option>';
+    echo '</select><br>';
+    echo '<label for="Adresse">Adresse :</label>';
+    echo '<input type="text" name="Adresse" required><br>';
+    echo '<label for="login">Login :</label>';
+    echo '<input type="text" name="login" required><br>';
+    echo '<label for="numTelephone">Numéro de Téléphone :</label>';
+    echo '<input type="text" name="numTelephone" required><br>';
+    echo '<input type="submit" name="inscription" value="Inscription">';
+    echo '</form>';
+
+    // Affichage des résultats
     $query = 'SELECT * FROM Utilisateur WHERE 1';
 
     if ($genreId !== null && $genreId !== '') {
@@ -73,36 +123,29 @@ if ($cnx) {
 
     $result = $cnx->prepare($query);
 
-    // Liaison des paramètres si le genre est sélectionné
     if ($genreId !== null && $genreId !== '') {
         $result->bindParam(':sexe', $genreId, PDO::PARAM_INT);
     }
 
-    // Exécution de la requête
     $result->execute();
 
-    // Affichage des résultats
     if ($result->rowCount() > 0) {
         echo "<table border='1'>";
-        echo "<thead>";
-        echo "<tr class='table-flowtech'>";
-        echo "<th scope='col'>idUtilisateur</th>";
-        echo "<th scope='col'>Nom</th>";
-        echo "<th scope='col'>Prenom</th>";
-        echo "<th scope='col'>email</th>";
-        echo "<th scope='col'>dateNaissance</th>";
-        echo "<th scope='col'>Sexe</th>";
-        echo "<th scope='col'>Adresse</th>";
-        echo "<th scope='col'>Pseudo</th>";
-        echo "<th scope='col'>numTelephone</th>";
-        echo "<th scope='col'>Modifier</th>";
-        echo "<th scope='col'>Supprimer</th>";
+        echo "<tr>";
+        echo "<th>idUtilisateur</th>";
+        echo "<th>Nom</th>";
+        echo "<th>Prenom</th>";
+        echo "<th>email</th>";
+        echo "<th>dateNaissance</th>";
+        echo "<th>Sexe</th>";
+        echo "<th>Adresse</th>";
+        echo "<th>Pseudo</th>";
+        echo "<th>numTelephone</th>";
+        echo "<th>Modifier</th>";
+        echo "<th>Supprimer</th>";
         echo "</tr>";
-        echo "<thead>";
-
 
         while ($donnees = $result->fetch()) {
-            echo "<tbody >";
             echo "<form action=" . $_SERVER['PHP_SELF'] . " method='post'>";
             echo "<input type='hidden' name='cle' value='" . $donnees['idUtilisateur'] . "'>";
             echo "<tr>";
@@ -120,11 +163,10 @@ if ($cnx) {
             echo "<td><input type='text' name='Adresse'size='20' value='" . $donnees['Adresse'] . "'></td>";
             echo "<td><input type='text' name='login'size='20' value='" . $donnees['login'] . "'></td>";
             echo "<td><input type='text' name='numTelephone'size='20' value='" . $donnees['numTelephone'] . "'></td>";
-            echo "<td><input class='btn btn-primary' type='submit' name='update' value='Modifier'></td>";
-            echo "<td><input class='btn btn-danger' type='submit' name='delete' value='Supprimer'></td>";
+            echo "<td><input type='submit' name='update' value='Modifier'></td>";
+            echo "<td><input type='submit' name='delete' value='Supprimer'></td>";
             echo "</tr>";
             echo "</form>";
-            echo "<tbody>";
         }
         echo "</table>";
     } else {
