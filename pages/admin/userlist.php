@@ -94,7 +94,7 @@
         // Affichage du formulaire d'inscription
         echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
         ?>
-        <div class="row mx-5 px-5">
+        <div class="row mx-5 px-5 mt-3">
             <h4>Insérer un utilisateur</h4>
 
             <input type="text" name="Nom" placeholder="Nom" required class="mt-1">
