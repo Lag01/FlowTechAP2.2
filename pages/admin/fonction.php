@@ -31,6 +31,104 @@ function connect_bd($nomBd)
     }
 }
 
+function moyenneAge()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour récupérer la date de naissance de tous les acteurs
+        $req = $cnx->prepare("SELECT dateNaissance FROM Utilisateur");
+        // Exécution de la requête
+        $req->execute();
+        // Récupération des dates de naissance
+        $datesNaissance = $req->fetchAll(PDO::FETCH_COLUMN);
+
+        // Calcul de l'âge pour chaque date de naissance
+        $ages = [];
+        foreach ($datesNaissance as $dateNaissance) {
+            $age = date_diff(date_create($dateNaissance), date_create('today'))->y;
+            $ages[] = $age;
+        }
+
+        // Calcul de la moyenne d'âge
+        $moyenneAge = array_sum($ages) / count($ages);
+
+        // Retourner la moyenne d'âge
+        return $moyenneAge;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
+// Fonction pour récupérer le nombre total de films sortis à partir de l'an 2000
+function nbUtilisateurAnnee($anneeChoisit)
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre d'utilisateurs nés à partir de l'année choisie
+        $req = $cnx->prepare("SELECT COUNT(*) as 'NbUtilisateur' FROM Utilisateur WHERE YEAR(dateNaissance) >= ?");
+        // Liaison de la variable $anneeChoisit à la requête
+        $req->bindParam(1, $anneeChoisit, PDO::PARAM_INT);
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre d'utilisateurs
+        $ligne = $req->fetch(PDO::FETCH_ASSOC);
+        $nbUtilisateur = $ligne['NbUtilisateur'];
+        // Retourner le nombre d'utilisateurs
+        return $nbUtilisateur;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
+// Fonction pour calculer le chiffre d'affaires total d'un type de PC
+function chiffreAffairesTotal($nomArticle)
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérification de la connexion
+    if ($cnx) {
+        try {
+            // Requête pour récupérer le prix du PC
+            $requete = "SELECT prix FROM Pc WHERE nomArticle = :nomArticle";
+            $resultat = $cnx->prepare($requete);
+            $resultat->bindParam(':nomArticle', $nomArticle, PDO::PARAM_STR);
+            $resultat->execute();
+            $prix = $resultat->fetch(PDO::FETCH_COLUMN);
+
+            // Requête pour récupérer la quantité vendue
+            $requete = "SELECT SUM(Quantite) AS total_quantite FROM AssociationPanier 
+                        WHERE idPc IN (SELECT idPc FROM Pc WHERE nomArticle = :nomArticle)";
+            $resultat = $cnx->prepare($requete);
+            $resultat->bindParam(':nomArticle', $nomArticle, PDO::PARAM_STR);
+            $resultat->execute();
+            $total_quantite = $resultat->fetch(PDO::FETCH_COLUMN);
+
+            // Calcul du chiffre d'affaires total
+            $chiffre_affaires = $prix * $total_quantite;
+
+            // Retourner le chiffre d'affaires total
+            return $chiffre_affaires;
+
+        } catch (PDOException $e) {
+            // Gérer les erreurs éventuelles
+            echo "Erreur : " . $e->getMessage();
+            return 0;
+        }
+    } else {
+        return 0; // Erreur de connexion à la base de données
+    }
+}
+
+
 // Fonction de deconnexion de la BD 
 function deconnect_bd($nomBd)
 {
