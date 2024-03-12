@@ -129,6 +129,33 @@ function chiffreAffairesTotal($nomArticle)
 }
 
 
+// Fonction pour lister tous les acteurs avec leur rôle dans les films
+function listerUtilisateursAvecCommande()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour récupérer les utilisateurs avec leur commande et quantité
+        $req = $cnx->prepare("SELECT Pc.NomArticle, Utilisateur.Nom, Utilisateur.Prenom, AssociationPanier.quantite
+                              FROM Utilisateur 
+                              INNER JOIN Commande ON Utilisateur.idUtilisateur = Commande.idUtilisateur
+                              INNER JOIN AssociationPanier ON Commande.idCommande = AssociationPanier.idCommande
+                              INNER JOIN Pc ON AssociationPanier.idPc = Pc.idPc");
+        // Exécution de la requête
+        $req->execute();
+        // Récupération des résultats
+        $pcCommande = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        // Retourner les utilisateurs avec leur commande et quantité
+        return $pcCommande;
+    } else {
+        // Si erreur de connexion à la base de données
+        return [];
+    }
+}
+
 // Fonction de deconnexion de la BD 
 function deconnect_bd($nomBd)
 {

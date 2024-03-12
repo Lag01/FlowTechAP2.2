@@ -197,7 +197,6 @@ if ($cnx) {
         $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
 
         // Affichage du chiffre d'affaires total
-// Affichage du chiffre d'affaires total
         echo "<br>Le chiffre d'affaires total pour le PC $pcChoisi est : $chiffreAffaires";
 
         echo '<form method="post" action="">';
@@ -207,10 +206,29 @@ if ($cnx) {
         echo '<option value="Kraken">Kraken</option>';
         echo '<option value="Savana">Savana</option>';
         echo '<option value="Fractal-North">Fractal-North</option>';
+        echo '<option value="Tracer">Tracer</option>';
+        echo '<option value="Freezer">Freezer</option>';
+        echo '<option value="Orion">Orion</option>';
+        echo '<option value="Omega">Omega</option>';
+
         // Ajoutez d'autres options PC ici si nécessaire
         echo '</select>';
         echo '<input type="submit" value="Afficher le chiffre d\'affaires">';
         echo '</form>';
+
+        // Affichage de tous les acteurs avec leur rôle
+        $utilisateurAvecPc = listerUtilisateursAvecCommande();
+        echo "<h2>Liste des utilisateurs avec leur commande et la quantité :</h2>";
+        echo "<table border='1'>";
+        echo "<tr><th>Pc</th><th>Utilisateur</th><th>Quantité</th></tr>";
+        foreach ($utilisateurAvecPc as $pcCommande) {
+            echo "<tr>";
+            echo "<td>{$pcCommande['NomArticle']}</td>";
+            echo "<td>{$pcCommande['Nom']} {$pcCommande['Prenom']}</td>";
+            echo "<td>{$pcCommande['quantite']}</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
 
 
     } else {
