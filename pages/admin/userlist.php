@@ -94,172 +94,176 @@
         // Affichage du formulaire d'inscription
         echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
         ?>
-                <div class="row mx-5 px-5 mt-3">
-                    <h4>Insérer un utilisateur</h4>
+        <div class="row mx-5 px-5 mt-3">
+            <h4>Insérer un utilisateur</h4>
 
-                    <input type="text" name="Nom" placeholder="Nom" required class="mt-1">
-                    <input type="text" name="Prenom" placeholder="Prénom" required class="mt-1">
-                    <input type="email" name="email" placeholder="Email" required class="mt-1">
-                    <input type="date" name="dateNaissance" placeholder="Date de naissance" required class="mt-1">
-                    <select name="Sexe" required class="mt-1">
-                        <option value="0">Homme</option>
-                        <option value="1">Femme</option>
-                    </select>
-                    <input type="text" name="Adresse" placeholder="Adresse" required class="mt-1">
-                    <input type="text" name="login" placeholder="Pseudo" required class="mt-1">
-                    <input type="text" name="numTelephone" placeholder="Téléphone" required class="mt-1">
-                    <input type="submit" name="inscription" value="Inscription" class="mt-2 btn btn-flowtech btn-sm mt-1">
-                </div>
-                </form>
+            <input type="text" name="Nom" placeholder="Nom" required class="mt-1">
+            <input type="text" name="Prenom" placeholder="Prénom" required class="mt-1">
+            <input type="email" name="email" placeholder="Email" required class="mt-1">
+            <input type="date" name="dateNaissance" placeholder="Date de naissance" required class="mt-1">
+            <select name="Sexe" required class="mt-1">
+                <option value="0">Homme</option>
+                <option value="1">Femme</option>
+            </select>
+            <input type="text" name="Adresse" placeholder="Adresse" required class="mt-1">
+            <input type="text" name="login" placeholder="Pseudo" required class="mt-1">
+            <input type="text" name="numTelephone" placeholder="Téléphone" required class="mt-1">
+            <input type="submit" name="inscription" value="Inscription" class="mt-2 btn btn-flowtech btn-sm mt-1">
+        </div>
+        </form>
 
-                <?php
-                // Affichage des résultats
-                $query = 'SELECT * FROM Utilisateur WHERE 1';
+        <?php
+        // Affichage des résultats
+        $query = 'SELECT * FROM Utilisateur WHERE 1';
 
-                if ($genreId !== null && $genreId !== '') {
-                    $query .= ' AND Sexe = :sexe';
+        if ($genreId !== null && $genreId !== '') {
+            $query .= ' AND Sexe = :sexe';
+        }
+
+        $result = $cnx->prepare($query);
+
+        if ($genreId !== null && $genreId !== '') {
+            $result->bindParam(':sexe', $genreId, PDO::PARAM_INT);
+        }
+
+        $result->execute();
+
+
+        // Affichage du formulaire de filtrage
+        echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
+        echo '<fieldset>';
+        echo '<label for="sexe">Filtrer par sexe :</label>';
+        echo '<select name="sexe">';
+        echo '<option value="">Tous</option>'; // Option par défaut
+        echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
+        echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
+        echo '</select>';
+        echo '<input type="submit" value="Filtrer" class="btn btn-sm btn-flowtech" />';
+        echo '</fieldset>';
+        echo '</form>';
+
+        echo "<div style='overflow: auto;'>";
+        if ($result->rowCount() > 0) {
+            echo "<table border='1'>";
+            echo '<thead>';
+            echo "<tr>";
+            echo "<th>idUtilisateur</th>";
+            echo "<th>Nom</th>";
+            echo "<th>Prenom</th>";
+            echo "<th>email</th>";
+            echo "<th>dateNaissance</th>";
+            echo "<th>Sexe</th>";
+            echo "<th>Adresse</th>";
+            echo "<th>Pseudo</th>";
+            echo "<th>numTelephone</th>";
+            echo "<th>Modifier</th>";
+            echo "<th>Supprimer</th>";
+            echo "</tr>";
+            echo '</thead>';
+
+            while ($donnees = $result->fetch()) {
+                echo '<tbody>';
+                echo "<form action=" . $_SERVER['PHP_SELF'] . " method='post'>";
+                echo "<input type='hidden' name='cle' value='" . $donnees['idUtilisateur'] . "'>";
+                echo "<tr>";
+                echo "<td>" . $donnees['idUtilisateur'] . "</td>";
+                echo "<td><input type='text' name='Nom'size='20' value='" . $donnees['Nom'] . "'></td>";
+                echo "<td><input type='text' name='Prenom'size='20' value='" . $donnees['Prenom'] . "'></td>";
+                echo "<td><input type='text' name='email'size='20' value='" . $donnees['email'] . "'></td>";
+                echo "<td><input type='text' name='dateNaissance'size='20' value='" . $donnees['dateNaissance'] . "'></td>";
+                echo "<td>";
+                echo "<select name='Sexe'>";
+                echo "<option value='0'" . ($donnees['Sexe'] == 0 ? ' selected' : '') . ">Homme</option>";
+                echo "<option value='1'" . ($donnees['Sexe'] == 1 ? ' selected' : '') . ">Femme</option>";
+                echo "</select>";
+                echo "</td>";
+                echo "<td><input type='text' name='Adresse'size='20' value='" . $donnees['Adresse'] . "'></td>";
+                echo "<td><input type='text' name='login'size='20' value='" . $donnees['login'] . "'></td>";
+                echo "<td><input type='text' name='numTelephone'size='20' value='" . $donnees['numTelephone'] . "'></td>";
+                echo "<td><input type='submit' name='update' class='btn btn-primary btn-sm' value='Modifier'></td>";
+                echo "<td><input type='submit' name='delete' class='btn btn-danger btn-sm' value='Supprimer'></td>";
+                echo "</tr>";
+                echo "</form>";
+                echo '</tbody>';
+            }
+            echo "</table>";
+            echo "</div>";
+
+
+            // Affichage de la moyenne d'âge de tous les acteurs
+            echo '<div class="my-2">';
+            $moyenneAge = round(moyenneAge());
+            echo "<label class='my-5'>Moyenne d'âge de tous les Utilisateur : $moyenneAge ans<label>";
+            echo '</div>';
+            echo '<div class="my-2">';
+            echo '<form method="post" action="">';
+            echo '<label for="anneeChoisit">Nombre d\'utilisateur née à partir de l\'année :</label>';
+            echo '<input type="text" class="form-control" name="anneeChoisit" size="4" value="' . (isset ($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '">';
+            echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Calculer">';
+            echo '</form>';
+            echo '</div>';
+
+
+            // fin container
+            echo '<div>';
+            // Vérifie si le formulaire a été soumis
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                // Vérifier si la clé 'anneeChoisit' est définie dans $_POST
+                if (isset ($_POST['anneeChoisit'])) {
+                    // Récupérer l'année choisie par l'utilisateur
+                    $anneeChoisit = $_POST['anneeChoisit'];
+                    // Appeler la fonction pour obtenir le nombre d'utilisateurs nés à partir de cette année
+                    $nbUtilisateur = nbUtilisateurAnnee($anneeChoisit);
+                    // Afficher le résultat
+                    echo "Nombre d'utilisateurs nés à partir de l'année <b>$anneeChoisit</b>: $nbUtilisateur<br><br>";
                 }
-
-                $result = $cnx->prepare($query);
-
-                if ($genreId !== null && $genreId !== '') {
-                    $result->bindParam(':sexe', $genreId, PDO::PARAM_INT);
-                }
-
-                $result->execute();
+            }
+            echo '</div>';
 
 
-                // Affichage du formulaire de filtrage
-                echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
-                echo '<fieldset>';
-                echo '<label for="sexe">Filtrer par sexe :</label>';
-                echo '<select name="sexe">';
-                echo '<option value="">Tous</option>'; // Option par défaut
-                echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
-                echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
-                echo '</select>';
-                echo '<input type="submit" value="Filtrer" class="btn btn-sm btn-flowtech" />';
-                echo '</fieldset>';
-                echo '</form>';
+            $pcChoisi = isset ($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
+            $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
 
-                echo "<div style='overflow: auto;'>";
-                if ($result->rowCount() > 0) {
-                    echo "<table border='1'>";
-                    echo '<thead>';
-                    echo "<tr>";
-                    echo "<th>idUtilisateur</th>";
-                    echo "<th>Nom</th>";
-                    echo "<th>Prenom</th>";
-                    echo "<th>email</th>";
-                    echo "<th>dateNaissance</th>";
-                    echo "<th>Sexe</th>";
-                    echo "<th>Adresse</th>";
-                    echo "<th>Pseudo</th>";
-                    echo "<th>numTelephone</th>";
-                    echo "<th>Modifier</th>";
-                    echo "<th>Supprimer</th>";
-                    echo "</tr>";
-                    echo '</thead>';
-
-                    while ($donnees = $result->fetch()) {
-                        echo '<tbody>';
-                        echo "<form action=" . $_SERVER['PHP_SELF'] . " method='post'>";
-                        echo "<input type='hidden' name='cle' value='" . $donnees['idUtilisateur'] . "'>";
-                        echo "<tr>";
-                        echo "<td>" . $donnees['idUtilisateur'] . "</td>";
-                        echo "<td><input type='text' name='Nom'size='20' value='" . $donnees['Nom'] . "'></td>";
-                        echo "<td><input type='text' name='Prenom'size='20' value='" . $donnees['Prenom'] . "'></td>";
-                        echo "<td><input type='text' name='email'size='20' value='" . $donnees['email'] . "'></td>";
-                        echo "<td><input type='text' name='dateNaissance'size='20' value='" . $donnees['dateNaissance'] . "'></td>";
-                        echo "<td>";
-                        echo "<select name='Sexe'>";
-                        echo "<option value='0'" . ($donnees['Sexe'] == 0 ? ' selected' : '') . ">Homme</option>";
-                        echo "<option value='1'" . ($donnees['Sexe'] == 1 ? ' selected' : '') . ">Femme</option>";
-                        echo "</select>";
-                        echo "</td>";
-                        echo "<td><input type='text' name='Adresse'size='20' value='" . $donnees['Adresse'] . "'></td>";
-                        echo "<td><input type='text' name='login'size='20' value='" . $donnees['login'] . "'></td>";
-                        echo "<td><input type='text' name='numTelephone'size='20' value='" . $donnees['numTelephone'] . "'></td>";
-                        echo "<td><input type='submit' name='update' class='btn btn-primary btn-sm' value='Modifier'></td>";
-                        echo "<td><input type='submit' name='delete' class='btn btn-danger btn-sm' value='Supprimer'></td>";
-                        echo "</tr>";
-                        echo "</form>";
-                        echo '</tbody>';
-                    }
-                    echo "</table>";
-                    echo "</div>";
+            // Affichage du chiffre d'affaires total
+    
+            echo '<form method="post" action="">';
+            echo '<label for="pc">Sélectionner le PC :</label>';
+            echo '<select name="pc">';
+            echo '<option value="Atlas">Atlas</option>';
+            echo '<option value="Kraken">Kraken</option>';
+            echo '<option value="Savana">Savana</option>';
+            echo '<option value="Fractal-North">Fractal-North</option>';
+            echo '<option value="Tracer">Tracer</option>';
+            echo '<option value="Freezer">Freezer</option>';
+            echo '<option value="Orion">Orion</option>';
+            echo '<option value="Omega">Omega</option>';
+            // Ajoutez d'autres options PC ici si nécessaire
+            echo '</select>';
+            echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Afficher le chiffre d\'affaires">';
+            echo '</form>';
+            echo "Le chiffre d'affaires total pour le PC $pcChoisi est : $chiffreAffaires";
 
 
-                    // Affichage de la moyenne d'âge de tous les acteurs
-                    $moyenneAge = round(moyenneAge());
-                    echo "<br><label class=''>Moyenne d'âge de tous les Utilisateur : $moyenneAge ans<label><br>";
+            // Affichage de tous les acteurs avec leur rôle
+            $utilisateurAvecPc = listerUtilisateursAvecCommande();
+            echo "<h2>Liste des utilisateurs avec leur commande et la quantité :</h2>";
+            echo "<table class='table' border='1'>";
+            echo "<tr><th>Pc</th><th>Utilisateur</th><th>Quantité</th></tr>";
+            foreach ($utilisateurAvecPc as $pcCommande) {
+                echo "<tr>";
+                echo "<td>{$pcCommande['NomArticle']}</td>";
+                echo "<td>{$pcCommande['Nom']} {$pcCommande['Prenom']}</td>";
+                echo "<td>{$pcCommande['quantite']}</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
 
-                    echo '<form method="post" action="">';
-                    echo '<label for="anneeChoisit"><br>Nombre d\'utilisateur née à partir de l\'année :</label>';
-                    echo '<div class="col-2"><input type="text" class="form-control" name="anneeChoisit" size="4" value="' . (isset ($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '"> </div>';
-                    echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Calculer">';
-                    echo '</form>';
-
-                    echo '</section>';
-                    // fin container
-            
-                    // Vérifie si le formulaire a été soumis
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                        // Vérifier si la clé 'anneeChoisit' est définie dans $_POST
-                        if (isset ($_POST['anneeChoisit'])) {
-                            // Récupérer l'année choisie par l'utilisateur
-                            $anneeChoisit = $_POST['anneeChoisit'];
-                            // Appeler la fonction pour obtenir le nombre d'utilisateurs nés à partir de cette année
-                            $nbUtilisateur = nbUtilisateurAnnee($anneeChoisit);
-                            // Afficher le résultat
-                            echo "Nombre d'utilisateurs nés à partir de l'année <b>$anneeChoisit</b>: $nbUtilisateur<br><br>";
-                        }
-                    }
-
-
-                    $pcChoisi = isset ($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
-                    $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
-
-                    // Affichage du chiffre d'affaires total
-                    echo "<br>Le chiffre d'affaires total pour le PC $pcChoisi est : $chiffreAffaires";
-
-                    echo '<form method="post" action="">';
-                    echo '<label for="pc">Sélectionner le PC :</label>';
-                    echo '<select name="pc">';
-                    echo '<option value="Atlas">Atlas</option>';
-                    echo '<option value="Kraken">Kraken</option>';
-                    echo '<option value="Savana">Savana</option>';
-                    echo '<option value="Fractal-North">Fractal-North</option>';
-                    echo '<option value="Tracer">Tracer</option>';
-                    echo '<option value="Freezer">Freezer</option>';
-                    echo '<option value="Orion">Orion</option>';
-                    echo '<option value="Omega">Omega</option>';
-
-                    // Ajoutez d'autres options PC ici si nécessaire
-                    echo '</select>';
-                    echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Afficher le chiffre d\'affaires">';
-                    echo '</form>';
-
-                    // Affichage de tous les acteurs avec leur rôle
-                    $utilisateurAvecPc = listerUtilisateursAvecCommande();
-                    echo "<h2>Liste des utilisateurs avec leur commande et la quantité :</h2>";
-                    echo "<table class='table' border='1'>";
-                    echo "<tr><th>Pc</th><th>Utilisateur</th><th>Quantité</th></tr>";
-                    foreach ($utilisateurAvecPc as $pcCommande) {
-                        echo "<tr>";
-                        echo "<td>{$pcCommande['NomArticle']}</td>";
-                        echo "<td>{$pcCommande['Nom']} {$pcCommande['Prenom']}</td>";
-                        echo "<td>{$pcCommande['quantite']}</td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-
-                } else {
-                    echo "Aucun enregistrement, désolé";
-                }
-                deconnect_bd('Utilisateur');
+        } else {
+            echo "Aucun enregistrement, désolé";
+        }
+        deconnect_bd('Utilisateur');
     }
-
+    echo '</section>';
     ?>
     <?php include '../components/footer.php'; ?>
 </body>
