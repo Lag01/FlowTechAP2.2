@@ -52,11 +52,13 @@
 											<i class="bi bi-person-circle mx-2"></i>Profil
 										</a>
 									</li>
-									<li>
-										<a class="dropdown-item text-light text-bold" href="/pages/admin/userlist.php">
-											<i class="bi bi-person-circle mx-2"></i>Admin
-										</a>
-									</li>
+									<?php if ($_SESSION['user_data']['Admin'] = 1): ?>
+										<li>
+											<a class="dropdown-item text-light text-bold" href="/pages/admin/userlist.php">
+												<i class="bi bi-person-circle mx-2"></i>Admin
+											</a>
+										</li>
+									<?php endif; ?>
 									<form method="post" action="/pages/script/authentification.inc.php" id="logoutForm">
 										<button type="submit" name="logout" class="dropdown-item text-light text-bold">
 											<i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion
@@ -67,11 +69,6 @@
 									<li>
 										<a class="dropdown-item text-light text-bold" href="/pages/panier.php">
 											<i class="bi bi-cart-fill mx-2"></i>Panier
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item text-light text-bold" href="/pages/admin/userlist.php">
-											<i class="bi bi-person-circle mx-2"></i>Admin
 										</a>
 									</li>
 									<li>
