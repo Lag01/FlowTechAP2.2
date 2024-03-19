@@ -2,10 +2,11 @@
 session_start();
 // Vérifier si l'utilisateur est un administrateur
 if ($_SESSION['user_data']['Admin'] != 1) {
+    // Redirige vers la page de profil s'il n'est pas un administrateur
     header("Location: /pages/profil.php");
     exit();
-} elseif ($_SESSION['user_data']['Admin'] = 0) {
-    header("Location: userlist.php");
+} elseif ($_SESSION['user_data']['Admin'] = 1) {
+    header("redirect: userlist.php");
 }
 
 ?>
@@ -21,6 +22,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
     <link href="/css/custom.css" rel="stylesheet" />
     <!-- BOOTSTRAP ICONS-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-dark text-light">
