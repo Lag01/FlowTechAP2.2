@@ -1,6 +1,6 @@
 <?php
 session_start();
-// Vérifier si l'utilisateur est un administrateur
+// -----------VERIF si l'utilisateur est un administrateur-----------
 if ($_SESSION['user_data']['Admin'] != 1) {
     // Redirige vers la page de profil s'il n'est pas un administrateur
     header("Location: /pages/profil.php");
@@ -26,7 +26,9 @@ if ($_SESSION['user_data']['Admin'] != 1) {
 </head>
 
 <body class="bg-dark text-light">
+    <!--NAVBAR-->
     <?php include '../components/navbar.php'; ?>
+    <!--FIN NAVBAR-->
     <?php
     require_once ('fonction.php');
 
@@ -34,9 +36,10 @@ if ($_SESSION['user_data']['Admin'] != 1) {
     $genreId = isset ($_POST['sexe']) ? $_POST['sexe'] : null;
     $genreAdmin = isset ($_POST['Admin']) ? $_POST['Admin'] : null;
 
-    // Établissement de la connexion
+    // Établissement de la connexion à la bdd
     $cnx = connect_bd('Utilisateur');
-    // Traitement de l'inscription
+
+    // -----------Traitement de l'inscription d'un user-----------
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['inscription'])) {
         $Nom = $_POST['Nom'];
         $Prenom = $_POST['Prenom'];
@@ -67,7 +70,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             echo "Erreur de connexion à la base de données.";
         }
     }
-
+    //-----------FONCTION DE SUPPRESSION D'UN UTILISATEUR-----------
     if ($cnx) {
         if (isset ($_REQUEST['delete'])) {
             $result = $cnx->prepare("DELETE FROM Utilisateur WHERE idUtilisateur = :cle");
@@ -78,6 +81,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             } else {
                 echo "Erreur: idUtilisateur non spécifié.";
             }
+            //-----------Fonction de modification d'un utilisateur-----------
         } elseif (isset ($_REQUEST['update'])) {
             $result = $cnx->prepare("UPDATE Utilisateur SET Nom=:Nom, Prenom=:Prenom, email=:email, dateNaissance=:dateNaissance, Sexe=:Sexe, Admin=:Admin, Adresse=:Adresse, login=:login, numTelephone=:numTelephone WHERE idUtilisateur=:cle");
             $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
@@ -110,7 +114,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         }
         // Debut container
         echo '<section class="container">';
-        // Affichage du formulaire d'inscription
+        // -----------Affichage du formulaire d'inscription-----------
         echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
         ?>
         <div class="row mx-5 px-5 mt-3">
@@ -136,7 +140,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         </form>
 
         <?php
-        // Affichage des résultats USER
+        // -----------Calcul du Genre de l'utilisateur-----------
         $query = 'SELECT * FROM Utilisateur WHERE 1';
 
         if ($genreId !== null && $genreId !== '') {
@@ -151,7 +155,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
 
         $result->execute();
 
-        // Affichage des résultats ADMIN
+        // -----------Calcul si l'utilisateur est ADMIN-----------
         $query = 'SELECT * FROM Utilisateur WHERE 1';
 
         if ($genreAdmin !== null && $genreAdmin !== '') {
@@ -167,7 +171,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         $result->execute();
 
 
-        // Affichage du formulaire de filtrage SEXE
+        // ---------Affichage du formulaire de filtrage SEXE---------
         echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
         echo '<fieldset>';
         echo '<label for="sexe">Filtrer par sexe :</label>';
@@ -180,7 +184,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         echo '</fieldset>';
         echo '</form>';
 
-        // Affichage du formulaire de filtrage ADMIN
+        // ---------Affichage du formulaire de filtrage ADMIN--------
         echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
         echo '<fieldset>';
         echo '<label for="Admin">Filtrer par Role :</label>';
@@ -193,6 +197,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         echo '</fieldset>';
         echo '</form>';
 
+        // ---------Affichage de la liste CRUD--------
         echo "<div style='overflow: auto;'>";
         if ($result->rowCount() > 0) {
             echo "<table border='1'>";
@@ -248,7 +253,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             echo "</div>";
 
 
-            // Affichage de la moyenne d'âge de tous les acteurs
+            // -------Calcul et Affichage de la moyenne d'age de tout les Utilisateur----------
             echo '<div class="my-2">';
             $moyenneAge = round(moyenneAge());
             echo "<label class='my-5'>Moyenne d'âge de tous les Utilisateur : $moyenneAge ans<label>";
@@ -262,7 +267,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             echo '</div>';
 
 
-            // fin container
+            // --------STATS NB UTILISATEUR NEE A PARTIR DE L'ANNEE CHOISIT----------
             echo '<div>';
             // Vérifie si le formulaire a été soumis
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -278,7 +283,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             }
             echo '</div>';
 
-            // fin container
+            // -------STATS NB UTILISATEUR ADMIN----------
             echo '<div>';
             $nbUtilisateur = nbUtilisateur();
             // Afficher le résultat
@@ -286,11 +291,11 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             echo '</div>';
 
 
+            // -------Affichage du chiffre d'affaires total----------
             $pcChoisi = isset ($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
             $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
 
-            // Affichage du chiffre d'affaires total
-    
+            // Liste déroulante du choix du pc a calculer le chiffra d'affaire
             echo '<form method="post" action="">';
             echo '<label for="pc">Sélectionner le PC :</label>';
             echo '<select name="pc">';
@@ -302,14 +307,14 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             echo '<option value="Freezer">Freezer</option>';
             echo '<option value="Orion">Orion</option>';
             echo '<option value="Omega">Omega</option>';
-            // Ajoutez d'autres options PC ici si nécessaire
+            // Ajout d'autres PC ici
             echo '</select>';
             echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Afficher le chiffre d\'affaires">';
             echo '</form>';
             echo "Le chiffre d'affaires total pour le PC $pcChoisi est : $chiffreAffaires";
 
 
-            // Affichage de tous les acteurs avec leur rôle
+            // -----Affichage de tous les Utilisateur avec leur Commande et la quantité---------
             $utilisateurAvecPc = listerUtilisateursAvecCommande();
             echo "<h2>Liste des utilisateurs avec leur commande et la quantité :</h2>";
             echo "<table class='table' border='1'>";
@@ -329,6 +334,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         deconnect_bd('Utilisateur');
     }
     echo '</section>';
+    //-----------Fermeture du container-----------
     ?>
     <?php include '../components/footer.php'; ?>
 </body>
