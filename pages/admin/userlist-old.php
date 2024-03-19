@@ -1,13 +1,13 @@
 <?php
-require_once('fonction.php');
+require_once ('fonction.php');
 
 // Récupération de la valeur du genre sélectionné
-$genreId = isset($_POST['sexe']) ? $_POST['sexe'] : null;
+$genreId = isset ($_POST['sexe']) ? $_POST['sexe'] : null;
 
 // Établissement de la connexion
 $cnx = connect_bd('Utilisateur');
 // Traitement de l'inscription
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['inscription'])) {
     $Nom = $_POST['Nom'];
     $Prenom = $_POST['Prenom'];
     $email = $_POST['email'];
@@ -37,18 +37,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
 }
 
 if ($cnx) {
-    if (isset($_REQUEST['delete'])) {
+    if (isset ($_REQUEST['delete'])) {
         $result = $cnx->prepare("DELETE FROM Utilisateur WHERE idUtilisateur = :cle");
-        $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
+        $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
         if ($idUtilisateur !== null) {
             $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
             $result->execute();
         } else {
             echo "Erreur: idUtilisateur non spécifié.";
         }
-    } elseif (isset($_REQUEST['update'])) {
+    } elseif (isset ($_REQUEST['update'])) {
         $result = $cnx->prepare("UPDATE Utilisateur SET Nom=:Nom, Prenom=:Prenom, email=:email, dateNaissance=:dateNaissance, Sexe=:Sexe, Adresse=:Adresse, login=:login, numTelephone=:numTelephone WHERE idUtilisateur=:cle");
-        $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
+        $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
         if ($idUtilisateur !== null) {
             $Nom = $_REQUEST['Nom'];
             $Prenom = $_REQUEST['Prenom'];
@@ -175,14 +175,14 @@ if ($cnx) {
 
         echo '<form method="post" action="">';
         echo '<label for="anneeChoisit"><br>Nombre d\'utilisateur née à partir de l\'année :</label>';
-        echo '<input type="text" name="anneeChoisit" size="4" value="' . (isset($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '">';
+        echo '<input type="text" name="anneeChoisit" size="4" value="' . (isset ($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '">';
         echo '<input type="submit" value="Calculer">';
         echo '</form>';
 
         // Vérifie si le formulaire a été soumis
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Vérifier si la clé 'anneeChoisit' est définie dans $_POST
-            if (isset($_POST['anneeChoisit'])) {
+            if (isset ($_POST['anneeChoisit'])) {
                 // Récupérer l'année choisie par l'utilisateur
                 $anneeChoisit = $_POST['anneeChoisit'];
                 // Appeler la fonction pour obtenir le nombre d'utilisateurs nés à partir de cette année
@@ -193,7 +193,7 @@ if ($cnx) {
         }
 
 
-        $pcChoisi = isset($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
+        $pcChoisi = isset ($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
         $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
 
         // Affichage du chiffre d'affaires total

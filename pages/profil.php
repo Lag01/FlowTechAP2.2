@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_data'])) {
+if (!isset ($_SESSION['user_data'])) {
     header("Location: ../pages/connexion.php");
     exit();
 }
@@ -43,7 +43,7 @@ try {
     $getImgProfil->execute([$pseudonyme]);
     $imgProfilLink = $getImgProfil->fetchColumn();
 } catch (Exception $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
+    die ("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
 

@@ -20,7 +20,7 @@ function login($user, $mdp)
 
 function logout()
 {
-    if (isset($_POST['logout'])) {
+    if (isset ($_POST['logout'])) {
         session_unset();
         session_destroy();
         header("Location: ../../pages/connexion.php");  // Utilisez un chemin relatif complet pour la redirection

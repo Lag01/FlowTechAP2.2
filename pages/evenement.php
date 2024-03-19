@@ -21,7 +21,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Test la connexion
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die ("Connection failed: " . $conn->connect_error);
 }
 
 // Je définis manuellement l'ID car il n'est pas dans la sessions
@@ -33,8 +33,8 @@ $sql = "SELECT idEvenement, dateEvenement, nomEvenement FROM Evenement";
 $result = $conn->query($sql);
 
 // Inscrit l'utilisateur aux évenements
-if (isset($_POST['submit'])) {
-    if (!empty($_POST['evenement'])) {
+if (isset ($_POST['submit'])) {
+    if (!empty ($_POST['evenement'])) {
         $selected = $_POST['evenement'];
         echo 'Vous êtes inscrit à l\'evenement: ' . $selected;
         $selected = $conn->real_escape_string($selected);
@@ -54,43 +54,45 @@ if (isset($_POST['submit'])) {
 <html lang="fr">
 
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title> Évènements - FlowTech</title>
-    <meta name="description" content="FlowTech, surement les meilleurs PC du marché!"/>
-    <link rel="icon" type="image/x-icon" href="../img/logos/logo-min-rounded.png"/>
+    <meta name="description" content="FlowTech, surement les meilleurs PC du marché!" />
+    <link rel="icon" type="image/x-icon" href="../img/logos/logo-min-rounded.png" />
     <!--CSS CUSTOM + BOOTSTRAP-->
-    <link href="/css/custom.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet" />
     <!-- BOOTSTRAP ICONS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
 </head>
+
 <body>
-<section class="container">
-    <form action="" method="post">
-        <select name="evenement">
-            <option disabled selected>Choisissez</option>
-            <?php
-            // Affiche les champs de la table Evenement
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<option value='" . $row["idEvenement"] . "'>" . $row["nomEvenement"] . "</option>";
+    <section class="container">
+        <form action="" method="post">
+            <select name="evenement">
+                <option disabled selected>Choisissez</option>
+                <?php
+                // Affiche les champs de la table Evenement
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo "<option value='" . $row["idEvenement"] . "'>" . $row["nomEvenement"] . "</option>";
+                    }
+                } else {
+                    echo "0 results";
                 }
-            } else {
-                echo "0 results";
-            }
-            ?>
-        </select>
-        <input type="submit" name="submit" value="Envoyer">
-    </form>
-    <table>
-        <tr>
-            <th>Vous êtes isncrits à</th>
-        </tr>
+                ?>
+            </select>
+            <input type="submit" name="submit" value="Envoyer">
+        </form>
+        <table>
+            <tr>
+                <th>Vous êtes isncrits à</th>
+            </tr>
 
-    </table>
+        </table>
 
-</section>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

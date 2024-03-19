@@ -2,7 +2,7 @@
 session_start();
 
 // Vérification de la session
-if (!isset($_SESSION['user_data'])) {
+if (!isset ($_SESSION['user_data'])) {
     header("Location: ../pages/connexion.php");
     exit();
 } else {
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_data'])) {
 try {
     $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
 } catch (Exception $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
+    die ("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
 // Récupération de l'ancien nom de l'image profil
@@ -26,7 +26,7 @@ if ($oldImgProfilName) {
 
     $uploadDir = realpath(dirname(__FILE__)) . '/imgUser/';
     $absolutePath = $uploadDir . $oldImgProfilName;
-    if (!empty($absolutePath) && file_exists($absolutePath)) {
+    if (!empty ($absolutePath) && file_exists($absolutePath)) {
         unlink($absolutePath);
         echo "Ancienne image supprimée avec succès.<br>";
     } else {

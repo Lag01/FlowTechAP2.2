@@ -19,10 +19,10 @@ session_start();
     <div class="login-form">
 
         <?php if (isset ($_SESSION["errorMessage"]) && !empty ($_SESSION["errorMessage"])): ?>
-                <p class="text-center text-danger">
-                    <?php echo $_SESSION["errorMessage"]; ?>
-                </p>
-                <?php unset($_SESSION["errorMessage"]); ?>
+            <p class="text-center text-danger">
+                <?php echo $_SESSION["errorMessage"]; ?>
+            </p>
+            <?php unset($_SESSION["errorMessage"]); ?>
         <?php endif; ?>
 
         <form action="../pages/script/login-script.php" method="post">

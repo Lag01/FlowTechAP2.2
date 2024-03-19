@@ -14,12 +14,12 @@ $sexe = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_STRING); // Récupérat
 try {
     $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
 } catch (Exception $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
+    die ("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
 $errors = array();
 
-if (empty($prenom) || empty($nom) || empty($date_naissance) || empty($adresse) || empty($numero_telephone) || empty($email) || empty($login) || empty($mdp)) {
+if (empty ($prenom) || empty ($nom) || empty ($date_naissance) || empty ($adresse) || empty ($numero_telephone) || empty ($email) || empty ($login) || empty ($mdp)) {
     $errors[] = "Veuillez remplir tous les champs.";
 } else {
     $checkUser = $pdo->prepare("SELECT * FROM Utilisateur WHERE login = ?");
