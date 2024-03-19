@@ -1,17 +1,11 @@
 <?php
 session_start();
-
-// Vérifier si l'utilisateur est connecté
-if (!isset ($_SESSION['user_data'])) {
-    // Rediriger vers la page de connexion s'il n'est pas connecté
-    header("Location: ../connexion.php");
-    exit();
-}
 // Vérifier si l'utilisateur est un administrateur
 if ($_SESSION['user_data']['Admin'] != 1) {
-    // Rediriger vers la page de profil s'il n'est pas un administrateur
-    header("Location: userlist.php");
+    header("Location: /pages/profil.php");
     exit();
+} elseif ($_SESSION['user_data']['Admin'] = 0) {
+    header("Location: userlist.php");
 }
 
 ?>
