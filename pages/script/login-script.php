@@ -12,24 +12,32 @@ try {
     );
 
 } catch (Exception $e) {
-    die("L'accès à la base de données est impossible.");
+    die ("L'accès à la base de données est impossible.");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($user) or empty($mdp)) {
+    if (empty ($user) or empty ($mdp)) {
         $_SESSION["errorMessage"] = "Veuillez saisir un login et un mot de passe.";
     } else {
-        $connexion = $bdd->prepare("SELECT * FROM 	Utilisateur WHERE login=:user");
+        $connexion = $bdd->prepare("SELECT * FROM  Utilisateur WHERE login=:user");
         $connexion->bindParam(":user", $user);
         $connexion->execute();
         $user_data = $connexion->fetch(PDO::FETCH_ASSOC);
 
         if ($user_data && password_verify($mdp, $user_data['pwd'])) {
             $_SESSION["user_data"] = $user_data;
-            header("Location: ../profil.php");
+            // Vérifier si l'utilisateur est administrateur
+            if ($user_data['Admin'] == 1) {
+                // Rediriger l'administrateur vers userlist.php
+                header("Location: ../admin/userlist.php");
+            } else {
+                // Rediriger les autres utilisateurs vers profil.php
+                header("Location: ../profil.php");
+            }
         } else {
             $_SESSION['errorMessage'] = "Nom d'utilisateur ou mot de passe incorrect.";
             header("Location: ../connexion.php");
         }
     }
 }
+?>

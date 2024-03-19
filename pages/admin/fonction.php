@@ -88,6 +88,29 @@ function nbUtilisateurAnnee($anneeChoisit)
     }
 }
 
+function nbUtilisateur()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre d'utilisateurs nés à partir de l'année choisie
+        $req = $cnx->prepare("SELECT COUNT(*) as 'NbUtilisateur' FROM Utilisateur WHERE Admin = 1");
+        // Liaison de la variable $anneeChoisit à la requête
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre d'utilisateurs
+        $ligne = $req->fetch(PDO::FETCH_ASSOC);
+        $nbUtilisateur = $ligne['NbUtilisateur'];
+        // Retourner le nombre d'utilisateurs
+        return $nbUtilisateur;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
 // Fonction pour calculer le chiffre d'affaires total d'un type de PC
 function chiffreAffairesTotal($nomArticle)
 {

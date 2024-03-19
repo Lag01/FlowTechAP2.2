@@ -77,40 +77,40 @@ session_start();
 										<i class="bi bi-person-fill"></i>
 									</button>
 									<ul class="dropdown-menu dropdown-menu-end bg-dark bg-opacity-80 border-dark mt-2">
-										<?php if (isset($_SESSION['user_data'])): ?>
-											<!-- Utilisateur connecté -->
-											<li>
-												<a class="dropdown-item text-light text-bold" href="../pages/panier.php">
-													<i class="bi bi-cart-fill mx-2"></i>Panier
-												</a>
-											</li>
-											<li>
-												<a class="dropdown-item text-light text-bold" href="../pages/profil.php">
-													<i class="bi bi-person-circle mx-2"></i>Profil
-												</a>
-											</li>
-											<form method="post" action="../pages/script/authentification.inc.php" id="logoutForm">
-												<button type="submit" name="logout" class="dropdown-item text-light text-bold">
-													<i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion
-												</button>
-											</form>
+										<?php if (isset ($_SESSION['user_data'])): ?>
+												<!-- Utilisateur connecté -->
+												<li>
+													<a class="dropdown-item text-light text-bold" href="../pages/panier.php">
+														<i class="bi bi-cart-fill mx-2"></i>Panier
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item text-light text-bold" href="../pages/profil.php">
+														<i class="bi bi-person-circle mx-2"></i>Profil
+													</a>
+												</li>
+												<form method="post" action="../pages/script/authentification.inc.php" id="logoutForm">
+													<button type="submit" name="logout" class="dropdown-item text-light text-bold">
+														<i class="bi bi-box-arrow-in-left mx-2"></i>Déconnexion
+													</button>
+												</form>
 										<?php else: ?>
-											<!-- Utilisateur non connecté -->
-											<li>
-												<a class="dropdown-item text-light text-bold" href="../pages/panier.php">
-													<i class="bi bi-cart-fill mx-2"></i>Panier
-												</a>
-											</li>
-											<li>
-												<a class="dropdown-item text-light text-bold" href="../pages/connexion.php">
-													<i class="bi bi-box-arrow-in-right mx-2"></i>Connexion
-												</a>
-											</li>
-											<li>
-												<a class="dropdown-item text-light text-bold" href="../pages/inscription.php">
-													<i class="bi bi-box-arrow-in-right mx-2"></i>Inscription
-												</a>
-											</li>
+												<!-- Utilisateur non connecté -->
+												<li>
+													<a class="dropdown-item text-light text-bold" href="../pages/panier.php">
+														<i class="bi bi-cart-fill mx-2"></i>Panier
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item text-light text-bold" href="../pages/connexion.php">
+														<i class="bi bi-box-arrow-in-right mx-2"></i>Connexion
+													</a>
+												</li>
+												<li>
+													<a class="dropdown-item text-light text-bold" href="../pages/inscription.php">
+														<i class="bi bi-box-arrow-in-right mx-2"></i>Inscription
+													</a>
+												</li>
 										<?php endif; ?>
 									</ul>
 								</div>
@@ -123,13 +123,13 @@ session_start();
 
 		<!--FIN NAVBAR-->
 		<div class="header-gradient container">
-			<?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
-				<div class="container pt-5 w-50">
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						<strong>Message envoyé!</strong> Je vous répondrai dès que possible.
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			<?php if (isset ($_GET['success']) && $_GET['success'] == 1) { ?>
+					<div class="container pt-5 w-50">
+						<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<strong>Message envoyé!</strong> Je vous répondrai dès que possible.
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
 					</div>
-				</div>
 			<?php } ?>
 			<div class="row align-items-center g-5 m-0">
 				<div class="col-12 col-lg-6">
