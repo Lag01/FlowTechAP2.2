@@ -236,4 +236,3 @@ if ($cnx) {
     }
     deconnect_bd('Utilisateur');
 }
-?>

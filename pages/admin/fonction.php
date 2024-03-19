@@ -27,9 +27,9 @@ function connect_bd($nomBd)
 
         print "Erreur!" . $e->getMessage() . "<br/>";
         die();
-        return 0;
     }
 }
+
 
 function moyenneAge()
 {
