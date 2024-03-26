@@ -228,6 +228,43 @@ function nombreHommesFemmes()
     }
 }
 
+function nombrePcVendu()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour récupérer le nombre de PC de chaque type vendu
+        $req = $cnx->prepare("SELECT Pc.nomArticle, SUM(AssociationPanier.quantite) AS total_pc_vendus
+                              FROM Pc
+                              INNER JOIN AssociationPanier ON Pc.idPc = AssociationPanier.idPc
+                              GROUP BY Pc.nomArticle");
+
+        // Exécution de la requête
+        $req->execute();
+
+        // Récupération des résultats
+        $pcVendus = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        // Création d'un tableau associatif pour stocker les nombres de PC vendus par nom d'article
+        $pcVendusArray = [];
+        foreach ($pcVendus as $pc) {
+            $pcVendusArray[$pc['nomArticle']] = $pc['total_pc_vendus'];
+        }
+
+        // Retourner le tableau associatif contenant le nombre de PC vendu pour chaque nom d'article
+        return $pcVendusArray;
+
+    } else {
+        // Si erreur de connexion à la base de données
+        return [];
+    }
+}
+
+
+
+
 
 // Fonction de deconnexion de la BD 
 function deconnect_bd($nomBd)
