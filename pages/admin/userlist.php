@@ -31,11 +31,12 @@ if ($_SESSION['user_data']['Admin'] != 1) {
     <?php
     require_once ('fonction.php');
 
-    //recup du nombre d'homme / femme
+    //recup du nombre d'homme / femme pour les stats
     $donneesGenre = nombreHommesFemmes();
-    $nbHommes = $donneesGenre['Hommes'];
     $nbFemmes = $donneesGenre['Femmes'];
+    $nbHommes = $donneesGenre['Hommes'];
 
+    //recup du nombre de pc vendu pour les graphiques
     $pcVendus = nombrePcVendu();
     $nbAtlas = $pcVendus['Atlas'];
     $nbSavana = $pcVendus['Savana'];
@@ -49,13 +50,13 @@ if ($_SESSION['user_data']['Admin'] != 1) {
 
 
     // Récupération de la valeur du genre sélectionné
-    $genreId = isset ($_POST['sexe']) ? $_POST['sexe'] : null;
-    $genreAdmin = isset ($_POST['Admin']) ? $_POST['Admin'] : null;
+    $genreId = isset($_POST['sexe']) ? $_POST['sexe'] : null;
+    $genreAdmin = isset($_POST['Admin']) ? $_POST['Admin'] : null;
 
     // Établissement de la connexion
     $cnx = connect_bd('Utilisateur');
     // Traitement de l'inscription
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['inscription'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['inscription'])) {
         $Nom = $_POST['Nom'];
         $Prenom = $_POST['Prenom'];
         $email = $_POST['email'];
@@ -87,18 +88,18 @@ if ($_SESSION['user_data']['Admin'] != 1) {
     }
 
     if ($cnx) {
-        if (isset ($_REQUEST['delete'])) {
+        if (isset($_REQUEST['delete'])) {
             $result = $cnx->prepare("DELETE FROM Utilisateur WHERE idUtilisateur = :cle");
-            $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
+            $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
             if ($idUtilisateur !== null) {
                 $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
                 $result->execute();
             } else {
                 echo "Erreur: idUtilisateur non spécifié.";
             }
-        } elseif (isset ($_REQUEST['update'])) {
+        } elseif (isset($_REQUEST['update'])) {
             $result = $cnx->prepare("UPDATE Utilisateur SET Nom=:Nom, Prenom=:Prenom, email=:email, dateNaissance=:dateNaissance, Sexe=:Sexe, Admin=:Admin, Adresse=:Adresse, login=:login, numTelephone=:numTelephone WHERE idUtilisateur=:cle");
-            $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
+            $idUtilisateur = isset($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
             if ($idUtilisateur !== null) {
                 $Nom = $_REQUEST['Nom'];
                 $Prenom = $_REQUEST['Prenom'];
@@ -274,7 +275,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
                 echo '<div class="my-2">';
                 echo '<form method="post" action="">';
                 echo '<label for="anneeChoisit">Nombre d\'utilisateur née à partir de l\'année :</label>';
-                echo '<input type="text" class="form-control" name="anneeChoisit" size="4" value="' . (isset ($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '">';
+                echo '<input type="text" class="form-control" name="anneeChoisit" size="4" value="' . (isset($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '">';
                 echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Calculer">';
                 echo '</form>';
                 echo '</div>';
@@ -285,7 +286,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
                 // Vérifie si le formulaire a été soumis
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Vérifier si la clé 'anneeChoisit' est définie dans $_POST
-                    if (isset ($_POST['anneeChoisit'])) {
+                    if (isset($_POST['anneeChoisit'])) {
                         // Récupérer l'année choisie par l'utilisateur
                         $anneeChoisit = $_POST['anneeChoisit'];
                         // Appeler la fonction pour obtenir le nombre d'utilisateurs nés à partir de cette année
@@ -304,7 +305,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
                 echo '</div>';
 
 
-                $pcChoisi = isset ($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
+                $pcChoisi = isset($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
                 $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
 
                 // Affichage du chiffre d'affaires total
@@ -371,7 +372,7 @@ if ($_SESSION['user_data']['Admin'] != 1) {
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <!--===========================LES GRAPHIQUES========================-->
     <script>
         // Mettre à jour les données du graphique d'âge
         const moins18 = <?php echo nombrePersonnesParTrancheAge(0, 17); ?>;
