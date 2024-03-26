@@ -179,6 +179,56 @@ function listerUtilisateursAvecCommande()
     }
 }
 
+// Fonction pour récupérer le nombre de personnes dans chaque tranche d'âge
+function nombrePersonnesParTrancheAge($trancheMin, $trancheMax)
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre de personnes dans la tranche d'âge spécifiée
+        $req = $cnx->prepare("SELECT COUNT(*) as 'NbPersonnes' FROM Utilisateur WHERE YEAR(CURRENT_DATE) - YEAR(dateNaissance) BETWEEN ? AND ?");
+        // Liaison des variables $trancheMin et $trancheMax à la requête
+        $req->bindParam(1, $trancheMin, PDO::PARAM_INT);
+        $req->bindParam(2, $trancheMax, PDO::PARAM_INT);
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre de personnes
+        $ligne = $req->fetch(PDO::FETCH_ASSOC);
+        $nbPersonnes = $ligne['NbPersonnes'];
+        // Retourner le nombre de personnes
+        return $nbPersonnes;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
+// Fonction pour récupérer le nombre total d'hommes et de femmes
+function nombreHommesFemmes()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre d'hommes et de femmes
+        $req = $cnx->prepare("SELECT SUM(Sexe = 0) AS 'Hommes', SUM(Sexe = 1) AS 'Femmes' FROM Utilisateur");
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre d'hommes et de femmes
+        $donnees = $req->fetch(PDO::FETCH_ASSOC);
+
+        // Retourner le nombre d'hommes et de femmes
+        return $donnees;
+    } else {
+        // Si erreur de connexion à la base de données
+        return ['Hommes' => -1, 'Femmes' => -1];
+    }
+}
+
+
 // Fonction de deconnexion de la BD 
 function deconnect_bd($nomBd)
 {

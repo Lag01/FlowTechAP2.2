@@ -1,342 +1,236 @@
 <?php
-session_start();
-// -----------VERIF si l'utilisateur est un administrateur-----------
-if ($_SESSION['user_data']['Admin'] != 1) {
-    // Redirige vers la page de profil s'il n'est pas un administrateur
-    header("Location: /pages/profil.php");
-    exit();
-} elseif ($_SESSION['user_data']['Admin'] = 1) {
-    header("redirect: userlist.php");
+
+// Fonction de connexion à la BD 
+function connect_bd($nomBd)
+{
+    $nomBd = 'nc231_flowtech';
+
+    $nomServeur = 'nc231.myd.infomaniak.com';
+    //nom du seveur
+    $login = 'nc231_flowtech';
+    //login de l'utilisateur
+    $passWd = "Flowtech123";
+    // mot de passe
+    try {
+        // Connexion à la BD et définition du jeu de caractères UTF-8
+        $cnx = new PDO("mysql:host=$nomServeur; dbname=$nomBd", $login, $passWd);
+
+        // PDO génére une erreur fatale si un problème survient. 
+        $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Jeu de caractères
+        $cnx->exec("SET CHARACTER SET utf8");
+
+        return $cnx;
+
+    } catch (PDOException $e) {
+
+        print "Erreur!" . $e->getMessage() . "<br/>";
+        die();
+    }
 }
 
-?>
 
-<html>
+function moyenneAge()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Liste utilisateurs - FlowTech</title>
-    <link rel="icon" type="image/x-icon" href="/img/logos/logo-min-rounded.png" />
-    <!-- CSS CUSTOM + BOOTSTRAP -->
-    <link href="/css/custom.css" rel="stylesheet" />
-    <!-- BOOTSTRAP ICONS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-
-<body class="bg-dark text-light">
-    <!--NAVBAR-->
-    <?php include '../components/navbar.php'; ?>
-    <!--FIN NAVBAR-->
-    <?php
-    require_once ('fonction.php');
-
-    // Récupération de la valeur du genre sélectionné
-    $genreId = isset ($_POST['sexe']) ? $_POST['sexe'] : null;
-    $genreAdmin = isset ($_POST['Admin']) ? $_POST['Admin'] : null;
-
-    // Établissement de la connexion à la bdd
-    $cnx = connect_bd('Utilisateur');
-
-    // -----------Traitement de l'inscription d'un user-----------
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['inscription'])) {
-        $Nom = $_POST['Nom'];
-        $Prenom = $_POST['Prenom'];
-        $email = $_POST['email'];
-        $dateNaissance = $_POST['dateNaissance'];
-        $Sexe = $_POST['Sexe'];
-        $Admin = $_POST['Admin'];
-        $Adresse = $_POST['Adresse'];
-        $login = $_POST['login'];
-        $numTelephone = $_POST['numTelephone'];
-
-        if ($cnx) {
-            $result = $cnx->prepare("INSERT INTO Utilisateur (Nom, Prenom, email, dateNaissance, Sexe, Admin, Adresse, login, numTelephone) VALUES (:Nom, :Prenom, :email, :dateNaissance, :Sexe, :Admin, :Adresse, :login, :numTelephone)");
-            $result->bindParam(':Nom', $Nom, PDO::PARAM_STR);
-            $result->bindParam(':Prenom', $Prenom, PDO::PARAM_STR);
-            $result->bindParam(':email', $email, PDO::PARAM_STR);
-            $result->bindParam(':dateNaissance', $dateNaissance, PDO::PARAM_STR);
-            $result->bindParam(':Sexe', $Sexe, PDO::PARAM_INT);
-            $result->bindParam(':Admin', $Admin, PDO::PARAM_INT);
-            $result->bindParam(':Adresse', $Adresse, PDO::PARAM_STR);
-            $result->bindParam(':login', $login, PDO::PARAM_STR);
-            $result->bindParam(':numTelephone', $numTelephone, PDO::PARAM_STR);
-            $result->execute();
-
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            echo "Erreur de connexion à la base de données.";
-        }
-    }
-    //-----------FONCTION DE SUPPRESSION D'UN UTILISATEUR-----------
+    // Vérifier la connexion
     if ($cnx) {
-        if (isset ($_REQUEST['delete'])) {
-            $result = $cnx->prepare("DELETE FROM Utilisateur WHERE idUtilisateur = :cle");
-            $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
-            if ($idUtilisateur !== null) {
-                $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
-                $result->execute();
-            } else {
-                echo "Erreur: idUtilisateur non spécifié.";
-            }
-            //-----------Fonction de modification d'un utilisateur-----------
-        } elseif (isset ($_REQUEST['update'])) {
-            $result = $cnx->prepare("UPDATE Utilisateur SET Nom=:Nom, Prenom=:Prenom, email=:email, dateNaissance=:dateNaissance, Sexe=:Sexe, Admin=:Admin, Adresse=:Adresse, login=:login, numTelephone=:numTelephone WHERE idUtilisateur=:cle");
-            $idUtilisateur = isset ($_REQUEST['cle']) ? $_REQUEST['cle'] : null;
-            if ($idUtilisateur !== null) {
-                $Nom = $_REQUEST['Nom'];
-                $Prenom = $_REQUEST['Prenom'];
-                $email = $_REQUEST['email'];
-                $dateNaissance = $_REQUEST['dateNaissance'];
-                $Sexe = $_REQUEST['Sexe'];
-                $Admin = $_REQUEST['Admin'];
-                $Adresse = $_REQUEST['Adresse'];
-                $login = $_REQUEST['login'];
-                $numTelephone = $_REQUEST['numTelephone'];
+        // Préparation de la requête pour récupérer la date de naissance de tous les acteurs
+        $req = $cnx->prepare("SELECT dateNaissance FROM Utilisateur");
+        // Exécution de la requête
+        $req->execute();
+        // Récupération des dates de naissance
+        $datesNaissance = $req->fetchAll(PDO::FETCH_COLUMN);
 
-                $result->bindParam(':cle', $idUtilisateur, PDO::PARAM_INT);
-                $result->bindParam(':Nom', $Nom, PDO::PARAM_STR);
-                $result->bindParam(':Prenom', $Prenom, PDO::PARAM_STR);
-                $result->bindParam(':email', $email, PDO::PARAM_STR);
-                $result->bindParam(':dateNaissance', $dateNaissance, PDO::PARAM_STR);
-                $result->bindParam(':Sexe', $Sexe, PDO::PARAM_INT);
-                $result->bindParam(':Admin', $Admin, PDO::PARAM_INT);
-                $result->bindParam(':Adresse', $Adresse, PDO::PARAM_STR);
-                $result->bindParam(':login', $login, PDO::PARAM_STR);
-                $result->bindParam(':numTelephone', $numTelephone, PDO::PARAM_STR);
-
-                $result->execute();
-            } else {
-                echo "Erreur: idUtilisateur non spécifié.";
-            }
-        }
-        // Debut container
-        echo '<section class="container">';
-        // -----------Affichage du formulaire d'inscription-----------
-        echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
-        ?>
-        <div class="row mx-5 px-5 mt-3">
-            <h4>Insérer un utilisateur</h4>
-
-            <input type="text" name="Nom" placeholder="Nom" required class="mt-1">
-            <input type="text" name="Prenom" placeholder="Prénom" required class="mt-1">
-            <input type="email" name="email" placeholder="Email" required class="mt-1">
-            <input type="date" name="dateNaissance" placeholder="Date de naissance" required class="mt-1">
-            <select name="Sexe" required class="mt-1">
-                <option value="0">Homme</option>
-                <option value="1">Femme</option>
-            </select>
-            <select name="Admin" required class="mt-1">
-                <option value="0">User</option>
-                <option value="1">Admin</option>
-            </select>
-            <input type="text" name="Adresse" placeholder="Adresse" required class="mt-1">
-            <input type="text" name="login" placeholder="Pseudo" required class="mt-1">
-            <input type="text" name="numTelephone" placeholder="Téléphone" required class="mt-1">
-            <input type="submit" name="inscription" value="Inscription" class="mt-2 btn btn-flowtech btn-sm mt-1">
-        </div>
-        </form>
-
-        <?php
-        // -----------Calcul du Genre de l'utilisateur-----------
-        $query = 'SELECT * FROM Utilisateur WHERE 1';
-
-        if ($genreId !== null && $genreId !== '') {
-            $query .= ' AND Sexe = :sexe';
+        // Calcul de l'âge pour chaque date de naissance
+        $ages = [];
+        foreach ($datesNaissance as $dateNaissance) {
+            $age = date_diff(date_create($dateNaissance), date_create('today'))->y;
+            $ages[] = $age;
         }
 
-        $result = $cnx->prepare($query);
+        // Calcul de la moyenne d'âge
+        $moyenneAge = array_sum($ages) / count($ages);
 
-        if ($genreId !== null && $genreId !== '') {
-            $result->bindParam(':sexe', $genreId, PDO::PARAM_INT);
-        }
-
-        $result->execute();
-
-        // -----------Calcul si l'utilisateur est ADMIN-----------
-        $query = 'SELECT * FROM Utilisateur WHERE 1';
-
-        if ($genreAdmin !== null && $genreAdmin !== '') {
-            $query .= ' AND Admin = :Admin';
-        }
-
-        $result = $cnx->prepare($query);
-
-        if ($genreAdmin !== null && $genreAdmin !== '') {
-            $result->bindParam(':Admin', $genreAdmin, PDO::PARAM_INT);
-        }
-
-        $result->execute();
-
-
-        // ---------Affichage du formulaire de filtrage SEXE---------
-        echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
-        echo '<fieldset>';
-        echo '<label for="sexe">Filtrer par sexe :</label>';
-        echo '<select name="sexe">';
-        echo '<option value="">Tous</option>'; // Option par défaut
-        echo '<option value="0"' . ($genreId === '0' ? ' selected' : '') . '>Homme</option>';
-        echo '<option value="1"' . ($genreId === '1' ? ' selected' : '') . '>Femme</option>';
-        echo '</select>';
-        echo '<input type="submit" value="Filtrer" class="btn btn-sm btn-flowtech" />';
-        echo '</fieldset>';
-        echo '</form>';
-
-        // ---------Affichage du formulaire de filtrage ADMIN--------
-        echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
-        echo '<fieldset>';
-        echo '<label for="Admin">Filtrer par Role :</label>';
-        echo '<select name="Admin">';
-        echo '<option value="">Tous</option>'; // Option par défaut
-        echo '<option value="0"' . ($genreAdmin === '0' ? ' selected' : '') . '>User</option>';
-        echo '<option value="1"' . ($genreAdmin === '1' ? ' selected' : '') . '>Admin</option>';
-        echo '</select>';
-        echo '<input type="submit" value="Filtrer" class="btn btn-sm btn-flowtech" />';
-        echo '</fieldset>';
-        echo '</form>';
-
-        // ---------Affichage de la liste CRUD--------
-        echo "<div style='overflow: auto;'>";
-        if ($result->rowCount() > 0) {
-            echo "<table border='1'>";
-            echo '<thead>';
-            echo "<tr>";
-            echo "<th>idUtilisateur</th>";
-            echo "<th>Nom</th>";
-            echo "<th>Prenom</th>";
-            echo "<th>email</th>";
-            echo "<th>dateNaissance</th>";
-            echo "<th>Sexe</th>";
-            echo "<th>Role</th>";
-            echo "<th>Adresse</th>";
-            echo "<th>Pseudo</th>";
-            echo "<th>numTelephone</th>";
-            echo "<th>Modifier</th>";
-            echo "<th>Supprimer</th>";
-            echo "</tr>";
-            echo '</thead>';
-
-            while ($donnees = $result->fetch()) {
-                echo '<tbody>';
-                echo "<form action=" . $_SERVER['PHP_SELF'] . " method='post'>";
-                echo "<input type='hidden' name='cle' value='" . $donnees['idUtilisateur'] . "'>";
-                echo "<tr>";
-                echo "<td>" . $donnees['idUtilisateur'] . "</td>";
-                echo "<td><input type='text' name='Nom'size='20' value='" . $donnees['Nom'] . "'></td>";
-                echo "<td><input type='text' name='Prenom'size='20' value='" . $donnees['Prenom'] . "'></td>";
-                echo "<td><input type='text' name='email'size='20' value='" . $donnees['email'] . "'></td>";
-                echo "<td><input type='text' name='dateNaissance'size='20' value='" . $donnees['dateNaissance'] . "'></td>";
-                echo "<td>";
-                echo "<select name='Sexe'>";
-                echo "<option value='0'" . ($donnees['Sexe'] == 0 ? ' selected' : '') . ">Homme</option>";
-                echo "<option value='1'" . ($donnees['Sexe'] == 1 ? ' selected' : '') . ">Femme</option>";
-                echo "</select>";
-                echo "</td>";
-                echo "<td>";
-                echo "<select name='Admin'>";
-                echo "<option value='0'" . ($donnees['Admin'] == 0 ? ' selected' : '') . ">User</option>";
-                echo "<option value='1'" . ($donnees['Admin'] == 1 ? ' selected' : '') . ">Admin</option>";
-                echo "</select>";
-                echo "</td>";
-                echo "<td><input type='text' name='Adresse'size='20' value='" . $donnees['Adresse'] . "'></td>";
-                echo "<td><input type='text' name='login'size='20' value='" . $donnees['login'] . "'></td>";
-                echo "<td><input type='text' name='numTelephone'size='20' value='" . $donnees['numTelephone'] . "'></td>";
-                echo "<td><input type='submit' name='update' class='btn btn-primary btn-sm' value='Modifier'></td>";
-                echo "<td><input type='submit' name='delete' class='btn btn-danger btn-sm' value='Supprimer'></td>";
-                echo "</tr>";
-                echo "</form>";
-                echo '</tbody>';
-            }
-            echo "</table>";
-            echo "</div>";
-
-
-            // -------Calcul et Affichage de la moyenne d'age de tout les Utilisateur----------
-            echo '<div class="my-2">';
-            $moyenneAge = round(moyenneAge());
-            echo "<label class='my-5'>Moyenne d'âge de tous les Utilisateur : $moyenneAge ans<label>";
-            echo '</div>';
-            echo '<div class="my-2">';
-            echo '<form method="post" action="">';
-            echo '<label for="anneeChoisit">Nombre d\'utilisateur née à partir de l\'année :</label>';
-            echo '<input type="text" class="form-control" name="anneeChoisit" size="4" value="' . (isset ($_POST['anneeChoisit']) ? $_POST['anneeChoisit'] : '') . '">';
-            echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Calculer">';
-            echo '</form>';
-            echo '</div>';
-
-
-            // --------STATS NB UTILISATEUR NEE A PARTIR DE L'ANNEE CHOISIT----------
-            echo '<div>';
-            // Vérifie si le formulaire a été soumis
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Vérifier si la clé 'anneeChoisit' est définie dans $_POST
-                if (isset ($_POST['anneeChoisit'])) {
-                    // Récupérer l'année choisie par l'utilisateur
-                    $anneeChoisit = $_POST['anneeChoisit'];
-                    // Appeler la fonction pour obtenir le nombre d'utilisateurs nés à partir de cette année
-                    $nbUtilisateur = nbUtilisateurAnnee($anneeChoisit);
-                    // Afficher le résultat
-                    echo "Nombre d'utilisateurs nés à partir de l'année <b>$anneeChoisit</b>: $nbUtilisateur<br><br>";
-                }
-            }
-            echo '</div>';
-
-            // -------STATS NB UTILISATEUR ADMIN----------
-            echo '<div>';
-            $nbUtilisateur = nbUtilisateur();
-            // Afficher le résultat
-            echo "Nombre d'utilisateurs Admin: $nbUtilisateur<br><br>";
-            echo '</div>';
-
-
-            // -------Affichage du chiffre d'affaires total----------
-            $pcChoisi = isset ($_POST['pc']) ? $_POST['pc'] : 'Atlas'; // Par défaut, 'Atlas'
-            $chiffreAffaires = chiffreAffairesTotal($pcChoisi);
-
-            // Liste déroulante du choix du pc a calculer le chiffra d'affaire
-            echo '<form method="post" action="">';
-            echo '<label for="pc">Sélectionner le PC :</label>';
-            echo '<select name="pc">';
-            echo '<option value="Atlas">Atlas</option>';
-            echo '<option value="Kraken">Kraken</option>';
-            echo '<option value="Savana">Savana</option>';
-            echo '<option value="Fractal-North">Fractal-North</option>';
-            echo '<option value="Tracer">Tracer</option>';
-            echo '<option value="Freezer">Freezer</option>';
-            echo '<option value="Orion">Orion</option>';
-            echo '<option value="Omega">Omega</option>';
-            // Ajout d'autres PC ici
-            echo '</select>';
-            echo '<input class="btn btn-flowtech btn-sm" type="submit" value="Afficher le chiffre d\'affaires">';
-            echo '</form>';
-            echo "Le chiffre d'affaires total pour le PC $pcChoisi est : $chiffreAffaires";
-
-
-            // -----Affichage de tous les Utilisateur avec leur Commande et la quantité---------
-            $utilisateurAvecPc = listerUtilisateursAvecCommande();
-            echo "<h2>Liste des utilisateurs avec leur commande et la quantité :</h2>";
-            echo "<table class='table' border='1'>";
-            echo "<tr><th>Pc</th><th>Utilisateur</th><th>Quantité</th></tr>";
-            foreach ($utilisateurAvecPc as $pcCommande) {
-                echo "<tr>";
-                echo "<td>{$pcCommande['NomArticle']}</td>";
-                echo "<td>{$pcCommande['Nom']} {$pcCommande['Prenom']}</td>";
-                echo "<td>{$pcCommande['quantite']}</td>";
-                echo "</tr>";
-            }
-            echo "</table>";
-
-        } else {
-            echo "Aucun enregistrement, désolé";
-        }
-        deconnect_bd('Utilisateur');
+        // Retourner la moyenne d'âge
+        return $moyenneAge;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
     }
-    echo '</section>';
-    //-----------Fermeture du container-----------
-    ?>
-    <?php include '../components/footer.php'; ?>
-</body>
+}
 
-</html>
+// Fonction pour récupérer le nombre total de films sortis à partir de l'an 2000
+function nbUtilisateurAnnee($anneeChoisit)
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre d'utilisateurs nés à partir de l'année choisie
+        $req = $cnx->prepare("SELECT COUNT(*) as 'NbUtilisateur' FROM Utilisateur WHERE YEAR(dateNaissance) >= ?");
+        // Liaison de la variable $anneeChoisit à la requête
+        $req->bindParam(1, $anneeChoisit, PDO::PARAM_INT);
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre d'utilisateurs
+        $ligne = $req->fetch(PDO::FETCH_ASSOC);
+        $nbUtilisateur = $ligne['NbUtilisateur'];
+        // Retourner le nombre d'utilisateurs
+        return $nbUtilisateur;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
+function nbUtilisateur()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre d'utilisateurs nés à partir de l'année choisie
+        $req = $cnx->prepare("SELECT COUNT(*) as 'NbUtilisateur' FROM Utilisateur WHERE Admin = 1");
+        // Liaison de la variable $anneeChoisit à la requête
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre d'utilisateurs
+        $ligne = $req->fetch(PDO::FETCH_ASSOC);
+        $nbUtilisateur = $ligne['NbUtilisateur'];
+        // Retourner le nombre d'utilisateurs
+        return $nbUtilisateur;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
+// Fonction pour calculer le chiffre d'affaires total d'un type de PC
+function chiffreAffairesTotal($nomArticle)
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérification de la connexion
+    if ($cnx) {
+        try {
+            // Requête pour récupérer le prix du PC
+            $requete = "SELECT prix FROM Pc WHERE nomArticle = :nomArticle";
+            $resultat = $cnx->prepare($requete);
+            $resultat->bindParam(':nomArticle', $nomArticle, PDO::PARAM_STR);
+            $resultat->execute();
+            $prix = $resultat->fetch(PDO::FETCH_COLUMN);
+
+            // Requête pour récupérer la quantité vendue
+            $requete = "SELECT SUM(Quantite) AS total_quantite FROM AssociationPanier 
+                        WHERE idPc IN (SELECT idPc FROM Pc WHERE nomArticle = :nomArticle)";
+            $resultat = $cnx->prepare($requete);
+            $resultat->bindParam(':nomArticle', $nomArticle, PDO::PARAM_STR);
+            $resultat->execute();
+            $total_quantite = $resultat->fetch(PDO::FETCH_COLUMN);
+
+            // Calcul du chiffre d'affaires total
+            $chiffre_affaires = $prix * $total_quantite;
+
+            // Retourner le chiffre d'affaires total
+            return $chiffre_affaires;
+
+        } catch (PDOException $e) {
+            // Gérer les erreurs éventuelles
+            echo "Erreur : " . $e->getMessage();
+            return 0;
+        }
+    } else {
+        return 0; // Erreur de connexion à la base de données
+    }
+}
+
+
+// Fonction pour lister tous les acteurs avec leur rôle dans les films
+function listerUtilisateursAvecCommande()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour récupérer les utilisateurs avec leur commande et quantité
+        $req = $cnx->prepare("SELECT Pc.NomArticle, Utilisateur.Nom, Utilisateur.Prenom, AssociationPanier.quantite
+                              FROM Utilisateur 
+                              INNER JOIN Commande ON Utilisateur.idUtilisateur = Commande.idUtilisateur
+                              INNER JOIN AssociationPanier ON Commande.idCommande = AssociationPanier.idCommande
+                              INNER JOIN Pc ON AssociationPanier.idPc = Pc.idPc");
+        // Exécution de la requête
+        $req->execute();
+        // Récupération des résultats
+        $pcCommande = $req->fetchAll(PDO::FETCH_ASSOC);
+
+        // Retourner les utilisateurs avec leur commande et quantité
+        return $pcCommande;
+    } else {
+        // Si erreur de connexion à la base de données
+        return [];
+    }
+}
+
+// Fonction pour récupérer le nombre de personnes dans chaque tranche d'âge
+function nombrePersonnesParTrancheAge($trancheMin, $trancheMax)
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre de personnes dans la tranche d'âge spécifiée
+        $req = $cnx->prepare("SELECT COUNT(*) as 'NbPersonnes' FROM Utilisateur WHERE YEAR(CURRENT_DATE) - YEAR(dateNaissance) BETWEEN ? AND ?");
+        // Liaison des variables $trancheMin et $trancheMax à la requête
+        $req->bindParam(1, $trancheMin, PDO::PARAM_INT);
+        $req->bindParam(2, $trancheMax, PDO::PARAM_INT);
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre de personnes
+        $ligne = $req->fetch(PDO::FETCH_ASSOC);
+        $nbPersonnes = $ligne['NbPersonnes'];
+        // Retourner le nombre de personnes
+        return $nbPersonnes;
+    } else {
+        // Si erreur de connexion à la base de données
+        return -1;
+    }
+}
+
+// Fonction pour récupérer le nombre total d'hommes et de femmes
+function nombreHommesFemmes()
+{
+    // Connexion à la base de données
+    $cnx = connect_bd('nc231_flowtech');
+
+    // Vérifier la connexion
+    if ($cnx) {
+        // Préparation de la requête pour compter le nombre d'hommes et de femmes
+        $req = $cnx->prepare("SELECT SUM(Sexe = 0) AS 'Hommes', SUM(Sexe = 1) AS 'Femmes' FROM Utilisateur");
+        // Exécution de la requête
+        $req->execute();
+        // Récupération du nombre d'hommes et de femmes
+        $donnees = $req->fetch(PDO::FETCH_ASSOC);
+
+        // Retourner le nombre d'hommes et de femmes
+        return $donnees;
+    } else {
+        // Si erreur de connexion à la base de données
+        return ['Hommes' => -1, 'Femmes' => -1];
+    }
+}
+
+
+// Fonction de deconnexion de la BD 
+function deconnect_bd($nomBd)
+{
+    $nomBd = null;
+}
