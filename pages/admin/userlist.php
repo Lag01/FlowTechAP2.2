@@ -352,9 +352,9 @@ if ($_SESSION['user_data']['Admin'] != 1) {
         <h2>Ajouter un événement</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <label for="nom">Nom de l'événement :</label>
-            <input type="text" name="nom" required>
+            <input type="text" name="nom" class="form-control" placeholder="Nom événement" required>
             <label for="date">Date de l'événement :</label>
-            <input type="date" name="date" required>
+            <input type="date" name="date" class="form-control" placeholder="Date" required>
             <input type="submit" name="ajoutEvenement" value="Ajouter l'événement">
             <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ajoutEvenement'])) {
@@ -367,7 +367,6 @@ if ($_SESSION['user_data']['Admin'] != 1) {
                     $result->bindParam(':date', $date, PDO::PARAM_STR);
                     $result->execute();
                     deconnect_bd('Evenement');
-                    header("Location: " . $_SERVER['PHP_SELF']);
                     exit();
                 } else {
                     echo "Erreur de connexion à la base de données.";
