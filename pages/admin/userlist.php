@@ -375,6 +375,28 @@ if ($_SESSION['user_data']['Admin'] != 1) {
             ?>
         </form>
     </div>
+    <div id="supprimerEvenement">
+        <h2>Supprimer un événement</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <label for="nom">Nom de l'événement :</label>
+            <input type="text" name="id" class="form-control" placeholder="ID événement" required>
+            <input type="submit" name="supprimerEvenement" value="Ajouter l'événement">
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['supprimerEvenement'])) {
+                $id = $_POST['id'];
+                $cnx = connect_bd('Evenement');
+                if ($cnx) {
+                    $result = $cnx->prepare("DELETE FROM Evenement WHERE idEvenement = :id");
+                    $result->bindParam(':id', $id, PDO::PARAM_INT);
+                    $result->execute();
+                    deconnect_bd('Evenement');
+                    exit();
+                } else {
+                    echo "Erreur de connexion à la base de données.";
+                }
+            }
+        </form>
+    </div>
     <div class="row pt-5">
         <div class="col-4">
             <h3>Nombres de ventes de chaque pc</h3>
