@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['user_data']) || empty($_SESSION['user_data']['Admin'])) {
+    // Redirige vers la page de connexion si l'utilisateur n'est pas connecté ou s'il n'est pas un administrateur
+    header("Location: ../pages/connexion.php");
+    exit();
+}
+
+
 //if (!isset($_SESSION['user_data'])) {
 //    header("Location: ../pages/connexion.php");
 //    exit();
@@ -13,10 +20,10 @@ session_start();
 // $username = "nc231_flowtech";
 // $password = "Flowtech123";
 // $dbname = "nc231_flowtech";
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "Flowtech";
+$servername = "nc231.myd.infomaniak.com";
+$username = "nc231_flowtech";
+$password = "Flowtech123";
+$dbname = "nc231_flowtech";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Test la connexion

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset ($_SESSION['user_data'])) {
+if (!isset($_SESSION['user_data'])) {
     header("Location: ../pages/connexion.php");
     exit();
 }
@@ -43,7 +43,7 @@ try {
     $getImgProfil->execute([$pseudonyme]);
     $imgProfilLink = $getImgProfil->fetchColumn();
 } catch (Exception $e) {
-    die ("Erreur de connexion à la base de données : " . $e->getMessage());
+    die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
 
 
@@ -130,38 +130,41 @@ try {
     <div class="container mt-5">
         <h1 class="text-light mb-4">Liste des commandes</h1>
         <?php if (count($commandes) > 0): ?>
-            <table class="table table-light table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Produit</th>
-                        <th scope="col">Quantité</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($commandes as $commande): ?>
-                        <tr>
-                            <td>
-                                <?php echo $commande['idCommande']; ?>
-                            </td>
-                            <td>
-                                <?php echo $commande['dateCommande']; ?>
-                            </td>
-                            <td>
-                                <?php echo $commande['idUtilisateur']; ?>
-                            </td>
-                            <td>
-                                <?php echo $commande['quantite']; ?> <!-- Correction de la casse ici -->
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                            <table class="table table-light table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Produit</th>
+                                        <th scope="col">Quantité</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($commandes as $commande): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $commande['idCommande']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $commande['dateCommande']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $commande['idUtilisateur']; ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $commande['quantite']; ?> <!-- Correction de la casse ici -->
+                                                            </td>
+                                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
         <?php else: ?>
-            <p class="text-light">Aucune commande trouvée.</p>
+                            <p class="text-light">Aucune commande trouvée.</p>
         <?php endif; ?>
     </div>
+
+    <a href="/pages/evenement.php" class="btn btn-primary mt-2">Accéder au evenement</a>
+
     <!-- FOOTER -->
     <?php include '../pages/components/cookies.php'; ?>
     <?php include 'components/footer.php'; ?>
