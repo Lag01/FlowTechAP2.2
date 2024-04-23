@@ -9,19 +9,19 @@ session_start();
 //};
 
 // Connexion à la DB
-$servername = "nc231.myd.infomaniak.com";
-$username = "nc231_flowtech";
-$password = "Flowtech123";
-$dbname = "nc231_flowtech";
-//$servername = "localhost";
-//$username = "root";
-//$password = "";
-//$dbname = "flowtechap2";
+// $servername = "nc231.myd.infomaniak.com";
+// $username = "nc231_flowtech";
+// $password = "Flowtech123";
+// $dbname = "nc231_flowtech";
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "Flowtech";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Test la connexion
 if ($conn->connect_error) {
-    die ("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Je définis manuellement l'ID car il n'est pas dans la sessions
@@ -33,8 +33,8 @@ $sql = "SELECT idEvenement, dateEvenement, nomEvenement FROM Evenement";
 $result = $conn->query($sql);
 
 // Inscrit l'utilisateur aux évenements
-if (isset ($_POST['submit'])) {
-    if (!empty ($_POST['evenement'])) {
+if (isset($_POST['submit'])) {
+    if (!empty($_POST['evenement'])) {
         $selected = $_POST['evenement'];
         echo 'Vous êtes inscrit à l\'evenement: ' . $selected;
         $selected = $conn->real_escape_string($selected);
@@ -59,10 +59,32 @@ if (isset ($_POST['submit'])) {
     <title> Évènements - FlowTech</title>
     <meta name="description" content="FlowTech, surement les meilleurs PC du marché!" />
     <link rel="icon" type="image/x-icon" href="../img/logos/logo-min-rounded.png" />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <!--CSS CUSTOM + BOOTSTRAP-->
     <link href="/css/custom.css" rel="stylesheet" />
     <!-- BOOTSTRAP ICONS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: {
+            url: 'getEvent.php',
+            method: 'POST',
+            extraParams: {
+                custom_param: 'something'
+            },
+            failure: function() {
+                alert('Une erreur durant la récupération !');
+            }
+        }
+    });
+    calendar.render();
+    calendar.setOption('locale', 'fr');
+});
+</script>
 </head>
 
 <body>
@@ -85,13 +107,14 @@ if (isset ($_POST['submit'])) {
         </form>
         <table>
             <tr>
-                <th>Vous êtes isncrits à</th>
+                <th>Vous êtes inscrit à</th>
             </tr>
 
         </table>
 
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <div id='calendar'></div>
 
 </body>
 

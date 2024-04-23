@@ -12,11 +12,11 @@ try {
     );
 
 } catch (Exception $e) {
-    die ("L'accès à la base de données est impossible.");
+    die("L'accès à la base de données est impossible.");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty ($user) or empty ($mdp)) {
+    if (empty($user) or empty($mdp)) {
         $_SESSION["errorMessage"] = "Veuillez saisir un login et un mot de passe.";
     } else {
         $connexion = $bdd->prepare("SELECT * FROM  Utilisateur WHERE login=:user");
