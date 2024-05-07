@@ -113,7 +113,7 @@ try {
         </li>
         <!-- Affichage du sexe -->
         <li>Sexe:
-            <?php echo ($sexe == 1) ? "Homme" : "Femme"; ?>
+            <?php echo ($sexe == 0) ? "Homme" : "Femme"; ?>
         </li>
 
         <div class="w-50 mt-2">
@@ -130,36 +130,36 @@ try {
     <div class="container mt-5">
         <h1 class="text-light mb-4">Liste des commandes</h1>
         <?php if (count($commandes) > 0): ?>
-                            <table class="table table-light table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Produit</th>
-                                        <th scope="col">Quantité</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($commandes as $commande): ?>
-                                                        <tr>
-                                                            <td>
-                                                                <?php echo $commande['idCommande']; ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $commande['dateCommande']; ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $commande['idUtilisateur']; ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $commande['quantite']; ?> <!-- Correction de la casse ici -->
-                                                            </td>
-                                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                <table class="table table-light table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Produit</th>
+                                            <th scope="col">Quantité</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($commandes as $commande): ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <?php echo $commande['idCommande']; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $commande['dateCommande']; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $commande['idUtilisateur']; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $commande['quantite']; ?> <!-- Correction de la casse ici -->
+                                                                    </td>
+                                                                </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
         <?php else: ?>
-                            <p class="text-light">Aucune commande trouvée.</p>
+                                <p class="text-light">Aucune commande trouvée.</p>
         <?php endif; ?>
     </div>
 
