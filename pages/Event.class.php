@@ -1,12 +1,13 @@
 <?php
 class Event
 {
+    private $idEvenement;
     private $nomEvenement;
     private $dateEvenement;
 
-
-    public function __construct($nomEvenement, $dateEvenement)
+    public function __construct($idEvenement, $nomEvenement, $dateEvenement)
     {
+        $this->idEvenement = $idEvenement;
         $this->nomEvenement = $nomEvenement;
         $this->dateEvenement = $dateEvenement;
     }
@@ -16,15 +17,21 @@ class Event
         return "Nom : " . $this->nomEvenement . ", Date : " . $this->dateEvenement;
     }
 
+    public function getIdEvenement()
+    {
+        return $this->idEvenement;
+    }
+
     public function getNomEvenement()
     {
         return $this->nomEvenement;
     }
 
-    public function getdateEvenement()
+    public function getDateEvenement()
     {
         return $this->dateEvenement;
     }
+
     public function setNomEvenement($nomEvenement)
     {
         $this->nomEvenement = $nomEvenement;
