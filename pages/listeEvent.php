@@ -7,7 +7,7 @@ foreach ($_SESSION['tableauEvent'] as $f) {
     echo "<tr>";
     echo "<td><input type='text' name='nomEvenement' value='" . $f->getNomEvenement() . "'</td>";
     echo "<td><input type='text' name='dateEvenement' value='" . $f->getDateEvenement() . "'</td>";
-    echo '</tr>';
+    echo "</tr>";
 }
 echo "</table>";
 
