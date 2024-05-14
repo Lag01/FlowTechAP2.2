@@ -91,8 +91,16 @@ session_start();
                 let index = this.value;
                 if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
                     <?php echo 'unset($_SESSION["tableauEvent"][' . $index . ']);'; ?>
-                    // Supprimer l'événement de la base de données
-                    // ...";
+                    <?php
+                    // désinscrit l'utilisateur de l'événement
+                    $idEvent = $_SESSION['tableauEvent'][$index]->getIdEvent();
+                    $idUser = $_SESSION['user']->getIdUser();
+                    $cnx = connect_bd('nc231');
+                    $req = $cnx->prepare("DELETE FROM Participer WHERE idEvent = :idEvent AND idUser = :idUser");
+                    $req->bindParam(':idEvent', $idEvent, PDO::PARAM_INT);
+                    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+                    $req->execute();
+                    ?>
                 }
             });
         }
