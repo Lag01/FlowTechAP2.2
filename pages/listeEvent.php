@@ -92,13 +92,10 @@ session_start();
                 if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
                     <?php echo 'unset($_SESSION["tableauEvent"][' . $index . ']);'; ?>
                     <?php
-                    // désinscrit l'utilisateur de l'événement
-                    $idEvent = $_SESSION['tableauEvent'][$index]->getIdEvent();
-                    $idUser = $_SESSION['user']->getIdUser();
-                    $cnx = connect_bd('nc231');
-                    $req = $cnx->prepare("DELETE FROM Participer WHERE idEvent = :idEvent AND idUser = :idUser");
-                    $req->bindParam(':idEvent', $idEvent, PDO::PARAM_INT);
-                    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+                    // supprime l'événement de la table Evenement
+                    $cnx = connect_bd('nc231_flowtech');
+                    $req = $cnx->prepare("DELETE FROM Evenement WHERE idEvenement = :idEvenement");
+                    $req->bindParam(':idEvenement', $_SESSION['tableauEvent'][$index]->getIdEvenement(), PDO::PARAM_INT);
                     $req->execute();
                     ?>
                 }
