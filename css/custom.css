@@ -12234,4 +12234,10 @@ textarea.form-control-lg {
   font-weight: bold;
 }
 
+/* ==================Infos-Profil========================= */
+#infos-profil {
+  margin-left: 0px;
+  list-style: none;
+  text-align: center;
+}
 /*# sourceMappingURL=custom.css.map */
