@@ -12,7 +12,7 @@ $mdp = password_hash($_POST["pwd"], PASSWORD_DEFAULT);
 $sexe = filter_input(INPUT_POST, "sexe", FILTER_SANITIZE_STRING); // Récupération du champ "Sexe"
 
 try {
-    $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
+    $pdo = new PDO("mysql:host=localhost;dbname=nc231_flowtech", "root", "");
 } catch (Exception $e) {
     die ("Erreur de connexion à la base de données : " . $e->getMessage());
 }

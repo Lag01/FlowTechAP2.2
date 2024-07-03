@@ -5,7 +5,7 @@ session_start();
 if (isset ($_SESSION['panier']) && !empty ($_SESSION['panier'])) {
     // Connexion à la base de données
     try {
-        $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
+        $pdo = new PDO("mysql:localhost;dbname=nc231_flowtech", "root", "");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         die ("Erreur de connexion à la base de données : " . $e->getMessage());

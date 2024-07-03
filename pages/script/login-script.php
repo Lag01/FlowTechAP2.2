@@ -6,9 +6,9 @@ $mdp = $_POST["pass"];
 
 try {
     $bdd = new PDO(
-        'mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech',
-        'nc231_flowtech',
-        'Flowtech123'
+        'mysql:host=localhost;dbname=nc231_flowtech',
+        'root',
+        ''
     );
 
 } catch (Exception $e) {

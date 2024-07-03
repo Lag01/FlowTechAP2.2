@@ -3,7 +3,7 @@ session_start();
 
 // Vérification de la session
 if (!isset ($_SESSION['user_data'])) {
-    header("Location: ../pages/connexion.php");
+    header("Location: ./connexion.php");
     exit();
 } else {
     // Utilisez les données de session existantes au lieu de définir manuellement
@@ -11,7 +11,7 @@ if (!isset ($_SESSION['user_data'])) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
+    $pdo = new PDO("mysql:localhost;dbname=nc231_flowtech", "root", "");
 } catch (Exception $e) {
     die ("Erreur de connexion à la base de données : " . $e->getMessage());
 }

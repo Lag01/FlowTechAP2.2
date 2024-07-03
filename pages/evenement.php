@@ -20,9 +20,9 @@ if (!isset($_SESSION['user_data']) || empty($_SESSION['user_data']['Admin'])) {
 // $username = "nc231_flowtech";
 // $password = "Flowtech123";
 // $dbname = "nc231_flowtech";
-$servername = "nc231.myd.infomaniak.com";
-$username = "nc231_flowtech";
-$password = "Flowtech123";
+$servername = "localhost";
+$username = "root";
+$password = "";
 $dbname = "nc231_flowtech";
 $conn = new mysqli($servername, $username, $password, $dbname);
 

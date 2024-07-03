@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_data'])) {
-    header("Location: ../pages/connexion.php");
+    header("Location: ./pages/connexion.php");
     exit();
 }
 
@@ -16,7 +16,7 @@ $sexe = $_SESSION['user_data']['Sexe']; // Récupération du sexe de l'utilisate
 
 try {
     // Connexion à la base de données
-    $pdo = new PDO("mysql:host=nc231.myd.infomaniak.com;dbname=nc231_flowtech", "nc231_flowtech", "Flowtech123");
+    $pdo = new PDO("mysql:host=localhost;dbname=nc231_flowtech", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Récupérer l'ID de l'utilisateur à partir de la session
@@ -77,9 +77,9 @@ try {
         <!-- NAVBAR -->
         <?php include 'components/navbar.php'; ?>
         <div class="px-4 pt-5 my-5 text-center">
-            <h1 class="display-4 fw-bold text-flowtech">Profile</h1>
+            <h1 class="display-4 fw-bold text-flowtech">Profil</h1>
             <div class="col-lg-6 mx-auto">
-                <p class="lead mb-4 text-light">Votre profile pour gérer vos informations</p>
+                <p class="lead mb-4 text-light">Vos informations sur votre profil</p>
             </div>
             <h1 class="diplay-1 text-light">
                 <?php echo "Bienvenue  $prenom $nom"; ?>
@@ -91,28 +91,28 @@ try {
         </div>
     </header>
 
-    <ul class="lead mb-4 text-light">
+    <ul class="lead mb-4 text-light" id="infos-profil">
         <!-- J'affiche les variables -->
-        <li>Nom:
+        <li>Nom :
             <?php echo $nom ?>
         </li>
-        <li>Prenom:
+        <li>Prenom :
             <?php echo $prenom ?>
         </li>
-        <li>Pseudonyme:
+        <li>Pseudonyme :
             <?php echo $pseudonyme ?>
         </li>
-        <li>Email:
+        <li>Email :
             <?php echo $email ?>
         </li>
-        <li>Téléphone:
+        <li>Téléphone :
             <?php echo $telephone ?>
         </li>
-        <li>Adresse:
+        <li>Adresse :
             <?php echo $adresse ?>
         </li>
         <!-- Affichage du sexe -->
-        <li>Sexe:
+        <li>Sexe :
             <?php echo ($sexe == 0) ? "Homme" : "Femme"; ?>
         </li>
 

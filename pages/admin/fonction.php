@@ -5,11 +5,11 @@ function connect_bd($nomBd)
 {
     $nomBd = 'nc231_flowtech';
 
-    $nomServeur = 'nc231.myd.infomaniak.com';
+    $nomServeur = 'localhost';
     //nom du seveur
-    $login = 'nc231_flowtech';
+    $login = 'root';
     //login de l'utilisateur
-    $passWd = "Flowtech123";
+    $passWd = "";
     // mot de passe
     try {
         // Connexion à la BD et définition du jeu de caractères UTF-8
